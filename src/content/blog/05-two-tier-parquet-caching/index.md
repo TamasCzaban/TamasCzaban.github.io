@@ -22,13 +22,22 @@ I built this dashboard alone. My manager and the other team member don't work in
 
 Here's what I built.
 
-## The pattern: manifest-based multi-file Parquet cache
+## The two-tier architecture
 
-Rather than a single monolithic cache file, the system uses multiple Parquet files — one per data domain — tracked by a central manifest. The manifest records what exists, when it was written, and its status.
+The cache has two layers that serve different purposes:
 
-The core load logic:
+**Tier 1 — Streamlit's in-memory cache (`@st.cache_data`)**: once a DataFrame is loaded into the app process, Streamlit holds it in memory. Any subsequent interaction — changing a filter, switching pages — returns the cached object instantly without touching disk or network. This is what makes the dashboard feel snappy during a session.
+
+**Tier 2 — Parquet files on a shared network drive**: persistent across users and sessions. When a new process starts and Streamlit's memory cache is cold, the app checks for today's Parquet file before ever attempting SQL. This is what makes the dashboard fast across the team — the first user of the day populates the Parquet, and every subsequent user loads from disk rather than running the queries themselves.
+
+The combined effect: SQL runs once per day at most, disk is hit once per session at most, and everything after that is served from memory.
+
+### Manifest-based multi-file Parquet cache
+
+Rather than a single monolithic Parquet file, the system uses multiple files — one per data domain — tracked by a central manifest. The manifest records what exists, when it was written, and its status.
 
 ```python
+import streamlit as st
 import pandas as pd
 import json
 from pathlib import Path
@@ -42,22 +51,23 @@ def load_manifest():
         return json.loads(MANIFEST_FILE.read_text())
     return {}
 
-def load_domain(domain: str, engine):
+@st.cache_data
+def load_domain(domain: str):
+    """Tier 1: Streamlit holds this in memory after the first call."""
     manifest = load_manifest()
     today = str(date.today())
     entry = manifest.get(domain, {})
 
     if entry.get("date") == today and entry.get("status") == "ok":
-        # Warm cache — file exists and is valid for today
+        # Tier 2 hit — read from shared Parquet, Streamlit caches the result
         return pd.read_parquet(entry["path"])
 
     if entry.get("path") and Path(entry["path"]).exists():
-        # Graceful degradation — today's cache not ready, use latest available
-        if entry.get("date") != today:
-            return pd.read_parquet(entry["path"])  # stale but available
+        # Graceful degradation — today's file not ready, serve latest available
+        return pd.read_parquet(entry["path"])
 
-    # Cold cache — run query, write file, update manifest
-    df = run_sql_query(domain, engine)
+    # Both caches cold — run SQL, write Parquet, update manifest
+    df = run_sql_query(domain)
     path = str(CACHE_DIR / f"{domain}_{today}.parquet")
     df.to_parquet(path)
     manifest[domain] = {"date": today, "path": path, "status": "ok"}
@@ -65,13 +75,11 @@ def load_domain(domain: str, engine):
     return df
 ```
 
-**Warm cache**: manifest says today's file exists and is valid — load it directly. No SQL.
+The `@st.cache_data` decorator is doing the tier-1 work: Streamlit hashes the function arguments and stores the return value in memory. The first call per session hits the Parquet. Every call after that — across reruns, filter changes, page navigations — returns the cached DataFrame from memory without any I/O.
 
-**Cold cache**: no valid entry — run the query, write the file, update the manifest. Distributed: the first user to open the app creates the cache for everyone else. No scheduler, no background job.
+**Graceful degradation**: if today's Parquet doesn't exist yet and a previous file is in the manifest, serve it. Users always get data. The UI surfaces a timestamp so stakeholders can see whether they're looking at today's numbers or yesterday's.
 
-**Graceful degradation**: if today's cache hasn't been created yet and a previous file exists, serve the stale data rather than failing or forcing a slow SQL load. Users always get something. The UI can surface a warning that the data is from a prior run.
-
-**File-specific troubleshooting**: because each domain has its own file and manifest entry, you can inspect exactly which domain failed, when it was last written, and invalidate only that one without touching the rest. This matters when you're debugging alone with no one to escalate to.
+**File-specific troubleshooting**: each domain has its own file and manifest entry. You can see exactly which domain last wrote successfully, invalidate one file without affecting others, and trace failures to a specific data source. When you're debugging alone with no one to escalate to, this matters.
 
 ## Connection pooling for the cold cache path
 
