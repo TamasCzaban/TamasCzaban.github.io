@@ -1,6 +1,6 @@
 ---
-title: "Building a 2-Tier Distributed Parquet Cache for a Slow SQL Dashboard"
-summary: "When your SQL queries take minutes and your users won't wait, you need a caching layer. Here's the distributed Parquet pattern I engineered to make a Streamlit security dashboard actually usable."
+title: "Manifest-Based Parquet Caching for a Streamlit Dashboard with Shifting Requirements"
+summary: "SQL queries that take minutes. Stakeholder requirements that change weekly. No sprint planning. Here's the caching architecture I built to handle all three."
 date: "Mar 10 2026"
 draft: false
 tags:
@@ -16,36 +16,62 @@ The dashboard worked. The SQL queries returned the right data. The problem was t
 
 The queries were unavoidable — they ran against large internal vulnerability databases, joining across multiple tables, aggregating thousands of records for network infrastructure assets. There was no shortcut in SQL that would get them under a few seconds. The data just took time to retrieve.
 
-The question wasn't how to make the SQL faster. It was how to make the app feel fast regardless.
+And every week, the director would add something new. A new data source. A new KPI. A new comparison. The requirements weren't stable — they were a live negotiation, revised at every weekly call.
 
-## The pattern: distributed cold cache with Parquet
+I built this dashboard alone. My manager and the other team member don't work in Python, so there was no code review, no shared architectural decisions, no one to catch a bad design before it became expensive to change. The caching system had to be fast for users, easy to extend as requirements shifted, and debuggable by me alone when something went wrong.
 
-The solution is a two-tier caching system. The cache lives on a shared network drive as Parquet files. The logic is simple:
+Here's what I built.
+
+## The pattern: manifest-based multi-file Parquet cache
+
+Rather than a single monolithic cache file, the system uses multiple Parquet files — one per data domain — tracked by a central manifest. The manifest records what exists, when it was written, and its status.
+
+The core load logic:
 
 ```python
 import pandas as pd
+import json
 from pathlib import Path
 from datetime import date
 
 CACHE_DIR = Path("//shared-drive/dashboard-cache")
-CACHE_FILE = CACHE_DIR / f"vuln_data_{date.today()}.parquet"
+MANIFEST_FILE = CACHE_DIR / "manifest.json"
 
-def load_data(engine):
-    if CACHE_FILE.exists():
-        # Warm cache — skip SQL entirely
-        return pd.read_parquet(CACHE_FILE)
+def load_manifest():
+    if MANIFEST_FILE.exists():
+        return json.loads(MANIFEST_FILE.read_text())
+    return {}
 
-    # Cold cache — run queries, write for everyone else
-    df = run_sql_queries(engine)
-    df.to_parquet(CACHE_FILE)
+def load_domain(domain: str, engine):
+    manifest = load_manifest()
+    today = str(date.today())
+    entry = manifest.get(domain, {})
+
+    if entry.get("date") == today and entry.get("status") == "ok":
+        # Warm cache — file exists and is valid for today
+        return pd.read_parquet(entry["path"])
+
+    if entry.get("path") and Path(entry["path"]).exists():
+        # Graceful degradation — today's cache not ready, use latest available
+        if entry.get("date") != today:
+            return pd.read_parquet(entry["path"])  # stale but available
+
+    # Cold cache — run query, write file, update manifest
+    df = run_sql_query(domain, engine)
+    path = str(CACHE_DIR / f"{domain}_{today}.parquet")
+    df.to_parquet(path)
+    manifest[domain] = {"date": today, "path": path, "status": "ok"}
+    MANIFEST_FILE.write_text(json.dumps(manifest, indent=2))
     return df
 ```
 
-**Warm cache**: if today's Parquet file exists on the shared drive, the app reads it directly. No SQL. Load time drops from minutes to under two seconds.
+**Warm cache**: manifest says today's file exists and is valid — load it directly. No SQL.
 
-**Cold cache**: if the file doesn't exist yet, the app runs the full SQL queries and writes the result. This happens once per day — whichever user opens the app first pays the cost. Every subsequent user gets the warm cache.
+**Cold cache**: no valid entry — run the query, write the file, update the manifest. Distributed: the first user to open the app creates the cache for everyone else. No scheduler, no background job.
 
-The key insight is that the cache is distributed without any central coordination. There's no scheduler, no cache server, no background job. The app is self-maintaining. The shared drive is the coordination mechanism.
+**Graceful degradation**: if today's cache hasn't been created yet and a previous file exists, serve the stale data rather than failing or forcing a slow SQL load. Users always get something. The UI can surface a warning that the data is from a prior run.
+
+**File-specific troubleshooting**: because each domain has its own file and manifest entry, you can inspect exactly which domain failed, when it was last written, and invalidate only that one without touching the rest. This matters when you're debugging alone with no one to escalate to.
 
 ## Connection pooling for the cold cache path
 
@@ -118,8 +144,16 @@ Parquet is the right format for this pattern for a few reasons:
 - **Pandas native**: `pd.read_parquet()` and `df.to_parquet()` are one-liners with no serialisation surprises
 - **Partition-friendly**: the date-in-filename pattern is simple but sufficient for this use case
 
+## Designing for shifting requirements
+
+The manifest-based approach turned out to be the right call for a second reason beyond performance: the requirements never stopped changing.
+
+Every week, the director wanted something new. A new data source, a new breakdown, a new KPI. In a system with a single monolithic cache, adding a new data domain means touching the cache logic for everything. With the manifest approach, adding a new domain is one new `load_domain("new_source", engine)` call and one new entry in the manifest. The existing domains are untouched and their cache files remain valid.
+
+The architecture absorbed week-by-week requirement changes with minimal rework. That was unplanned — but it's the right outcome when you're building alone with no sprint structure and a director who treats the weekly call as a requirements session.
+
 ## The result
 
-A dashboard that was previously unusable — three minute load times, no historical data, no trend comparisons — became a tool the team actually opens daily. Cold cache runs once in the morning. Every other load is warm. Historical lookback goes back as far as the cache files exist. Delta KPIs filter correctly.
+A dashboard that was previously unusable — three-minute load times, no historical data, no trend comparisons, no delta filtering — became a tool the team opens daily. Cold cache runs once in the morning. Every other load is warm. Individual domain failures are isolatable and recoverable. Historical lookback goes as far back as the cache files exist. Delta KPIs filter correctly because of the rolling Parquet.
 
-The caching logic is about 60 lines of Python. The impact on usability is the difference between a prototype and a production tool.
+The caching logic is about 80 lines of Python. The impact on usability is the difference between a prototype and a production tool that people actually depend on.
