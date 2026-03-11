@@ -12,6 +12,30 @@ tags:
 
 A self-initiated project to gain a clearer picture of my own daily activity patterns — breaking down step counts by exercise type (running vs walking) with automated daily updates and trend analysis.
 
+## Dashboard
+
+![Daily Steps Dashboard](/images/daily-steps/kepkivagas.png)
+
+![Daily Steps Dashboard View 2](/images/daily-steps/kepkivagas-1.png)
+
+## Data Model
+
+![Data Model](/images/daily-steps/data-model.png)
+
+## Dimension Tables
+
+![DIM_Date Table](/images/daily-steps/dim_date.png)
+
+![DIM_Activity Table](/images/daily-steps/dim_activity.png)
+
+![DIM_Date Steps](/images/daily-steps/dim_date_steps.png)
+
+## Source Data (Excel)
+
+![Excel Source Data](/images/daily-steps/excel-1.png)
+
+---
+
 ## What it does
 
 - Tracks total daily steps over time

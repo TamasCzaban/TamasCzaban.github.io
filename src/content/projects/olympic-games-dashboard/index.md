@@ -12,6 +12,22 @@ tags:
 
 A portfolio project visualising historical summer Olympic Games data, enabling users to explore how countries have performed across different eras — with drill-down into individual athletes and events.
 
+## Dashboard
+
+![Olympic Games Dashboard](/images/olympic-games/dashboard-4.png)
+
+![Olympic Games Dashboard View 2](/images/olympic-games/dashboard-5.png)
+
+## Data Model
+
+![Data Model](/images/olympic-games/data_model-2.png)
+
+## SQL Transformation
+
+![SQL Query](/images/olympic-games/sql.png)
+
+---
+
 ## What it does
 
 - Shows medal counts (Gold, Silver, Bronze) by country over time

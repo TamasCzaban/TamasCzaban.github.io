@@ -18,12 +18,37 @@ A data analysis project investigating which factors most strongly predict a movi
 
 **Budget has the strongest positive correlation with gross revenue.** Vote count came in as the second-highest predictor — initially surprising, but logical: the more people who see a film, the more votes it accumulates on review platforms.
 
-## What it does
+---
 
-- Cleans and prepares a real-world movie dataset from Kaggle
-- Computes a full correlation matrix across all numeric features
-- Visualises relationships between variables with scatter plots and heatmaps
-- Applies regression analysis to quantify budget-to-revenue relationships
+## Dataset
+
+![Initial Dataset](/images/movies/image.png)
+
+![Data Types Check](/images/movies/dataset-dtypes.png)
+
+![Cleaned Dataset](/images/movies/dataset-cleaned.png)
+
+## Sorted by Gross Revenue
+
+![Sorted by Gross](/images/movies/image-1.png)
+
+## Correlation Analysis
+
+![Budget vs Gross Scatter](/images/movies/image-2.png)
+
+![Budget vs Gross with Trend Line](/images/movies/image-3.png)
+
+![Score vs Gross Correlation](/images/movies/image-4.png)
+
+## Correlation Matrix
+
+![Correlation Matrix Table](/images/movies/image-5.png)
+
+![Correlation Heatmap](/images/movies/image-6.png)
+
+![Numerized Correlation Heatmap](/images/movies/image-7.png)
+
+---
 
 ## Tech Stack
 
@@ -42,12 +67,6 @@ A data analysis project investigating which factors most strongly predict a movi
 3. **Explore** — sorted by gross revenue to surface top performers
 4. **Correlate** — generated numeric correlation matrix, then encoded categorical variables for inclusion
 5. **Visualise** — scatter plots with trend lines, regression plots, correlation heatmap
-
-## Visualisations
-
-- Scatter plot: budget vs gross earnings with regression line
-- Heatmap: full correlation matrix across all features
-- Trend analysis incorporating categorised non-numeric variables (genre, rating, company)
 
 ## Key Skills Demonstrated
 

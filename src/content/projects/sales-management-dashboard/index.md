@@ -12,6 +12,26 @@ tags:
 
 Built in response to a sales manager's request for a high-level overview of internet sales performance — what products were sold, to which clients, and how actual results compared against budget targets.
 
+## Dashboard
+
+![Sales Management Dashboard](/images/sales-dashboard/dashboard.png)
+
+![Sales Dashboard Alternate View](/images/sales-dashboard/dashboard-2.png)
+
+## Data Model
+
+![Data Model](/images/sales-dashboard/data_model.png)
+
+## SQL Transformation
+
+![SQL Query](/images/sales-dashboard/sql_query.png)
+
+## Source Data
+
+![CSV Source Data](/images/sales-dashboard/csv.png)
+
+---
+
 ## What it does
 
 - Filters sales performance by customer and product across time
