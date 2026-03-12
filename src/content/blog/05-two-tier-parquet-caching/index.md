@@ -34,7 +34,28 @@ The combined effect: SQL runs once per day at most, disk is hit once per session
 
 ### Manifest-based multi-file Parquet cache
 
-Rather than a single monolithic Parquet file, the system uses multiple files — one per data domain — tracked by a central manifest. The manifest records what exists, when it was written, and its status.
+Rather than a single monolithic Parquet file, the system uses multiple files — one per data domain — tracked by a central manifest. The manifest is the single source of truth for the entire cache layer: it records what files exist, when they were written, their status, and — critically — what schema version and UI features each snapshot supports.
+
+```json
+{
+  "vuln_data": {
+    "date": "2026-03-12",
+    "path": "//shared-drive/cache/vuln_data_2026-03-12.parquet",
+    "status": "ok",
+    "schema_version": 3,
+    "features": ["eov_enrichment", "delta_rolling", "region_breakdown"]
+  },
+  "fw_assets": {
+    "date": "2026-03-12",
+    "path": "//shared-drive/cache/fw_assets_2026-03-12.parquet",
+    "status": "ok",
+    "schema_version": 2,
+    "features": ["region_breakdown"]
+  }
+}
+```
+
+The `schema_version` field increments when the data shape changes. The `features` list records which UI capabilities the file supports. As requirements shifted and new data sources were added week by week, new features were appended to the manifest when first written — old snapshots simply don't have them, and the UI handles that correctly.
 
 ```python
 import streamlit as st
@@ -70,7 +91,13 @@ def load_domain(domain: str):
     df = run_sql_query(domain)
     path = str(CACHE_DIR / f"{domain}_{today}.parquet")
     df.to_parquet(path)
-    manifest[domain] = {"date": today, "path": path, "status": "ok"}
+    manifest[domain] = {
+        "date": today,
+        "path": path,
+        "status": "ok",
+        "schema_version": CURRENT_SCHEMA_VERSION,
+        "features": ENABLED_FEATURES,
+    }
     MANIFEST_FILE.write_text(json.dumps(manifest, indent=2))
     return df
 ```
@@ -80,6 +107,39 @@ The `@st.cache_data` decorator is doing the tier-1 work: Streamlit hashes the fu
 **Graceful degradation**: if today's Parquet doesn't exist yet and a previous file is in the manifest, serve it. Users always get data. The UI surfaces a timestamp so stakeholders can see whether they're looking at today's numbers or yesterday's.
 
 **File-specific troubleshooting**: each domain has its own file and manifest entry. You can see exactly which domain last wrote successfully, invalidate one file without affecting others, and trace failures to a specific data source. When you're debugging alone with no one to escalate to, this matters.
+
+### Manifest-driven UI rendering
+
+The manifest does more than track cache files — it drives what the UI renders. Before drawing any section of the dashboard, the app checks whether the manifest entry for the selected snapshot declares the feature that section requires.
+
+This matters most in the historical lookback view. When a user steps back to a snapshot from two months ago, that file was written before several features existed. The data had a different shape. Columns driving certain KPIs weren't present. Without this check, loading an old Parquet into code expecting new columns produces runtime errors or silently NaN-filled charts.
+
+Instead, UI sections are guarded by the manifest:
+
+```python
+def render_eov_section(entry: dict):
+    if "eov_enrichment" not in entry.get("features", []):
+        st.caption("EOV data not available for this snapshot date.")
+        return
+    # load and render EOV enrichment charts...
+
+def render_region_breakdown(entry: dict):
+    if "region_breakdown" not in entry.get("features", []):
+        return  # silently skip — not available in older snapshots
+    # ...
+
+# In the page
+selected_date = st.selectbox("Compare against", available_dates)
+entry = load_manifest().get("vuln_data", {})
+
+render_eov_section(entry)
+render_delta_section(entry)
+render_region_breakdown(entry)
+```
+
+The user stepping back in time sees a clean UI reflecting what was available at that date. Sections requiring data that didn't exist yet simply don't appear — no crashes, no empty charts, no confusing error messages. The manifest knows what each snapshot can support, and the UI respects it.
+
+This also eliminates most backward-compatibility work when adding new features. When EOV enrichment was introduced, I added `"eov_enrichment"` to the features list in the manifest write path. Every snapshot written from that day onwards includes it. Every snapshot before that date doesn't — and no special casing is required. The manifest handles the branching.
 
 ## Connection pooling for the cold cache path
 
@@ -158,7 +218,11 @@ The manifest-based approach turned out to be the right call for a second reason 
 
 Every week, the director wanted something new. A new data source, a new breakdown, a new KPI. In a system with a single monolithic cache, adding a new data domain means touching the cache logic for everything. With the manifest approach, adding a new domain is one new `load_domain("new_source", engine)` call and one new entry in the manifest. The existing domains are untouched and their cache files remain valid.
 
-The architecture absorbed week-by-week requirement changes with minimal rework. That was unplanned — but it's the right outcome when you're building alone with no sprint structure and a director who treats the weekly call as a requirements session.
+Adding a new UI feature follows the same pattern. You add the feature name to `ENABLED_FEATURES` in the write path, so future snapshots declare it in the manifest. Existing snapshots don't have it — they were written before the feature existed — and the UI conditional rendering handles that automatically. Old historical dates show the dashboard as it existed then. New dates show the full current feature set. No migration scripts, no special cases, no compatibility shims.
+
+The combined result: requirements could change every week — new data sources, new columns, new KPIs, new UI sections — and the manifest absorbed the change at every layer. Cache, data shape, and UI all stayed coherent with each other, even as the definition of "what the dashboard does" shifted under active use.
+
+That was unplanned. But it's the right outcome when you're building alone with no sprint structure and a director who treats the weekly call as a requirements session.
 
 ## The result
 
