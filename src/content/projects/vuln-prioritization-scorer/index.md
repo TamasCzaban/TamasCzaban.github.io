@@ -11,6 +11,7 @@ tags:
 - Plotly
 - NVD
 - EPSS
+demoUrl: "https://vuln-prioritization-scorer-tams-czaban.streamlit.app/"
 repoUrl: "https://github.com/TamasCzaban/vuln-prioritization-scorer"
 ---
 
