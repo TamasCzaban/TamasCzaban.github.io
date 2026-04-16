@@ -53,6 +53,6 @@ Every business rule that was explicitly covered by the 391-test suite in v1 maps
 
 ## Built With
 
-Co-developed with my brother Zsombor, who led the React architecture and visual design. I owned the data-layer port from v1, multi-environment deployment setup, and the test harness that carries over from v1.
+Co-developed with my brother Zsombor, who set the visual system and component language. I did almost all of the frontend redesign on top of it, plus the data-layer port from v1, multi-environment deployment setup, and the test harness that carries over from v1.
 
 Case study: [czaban.dev/portfolio](https://www.czaban.dev/portfolio) (MedKölcsön v2).
