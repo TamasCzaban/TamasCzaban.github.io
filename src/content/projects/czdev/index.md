@@ -18,13 +18,14 @@ repoUrl: "https://github.com/TamasCzaban"
 
 ## Division of labour
 
+Both of us are full-stack. Zsombor leads the visual system — minimalist, architectural, craft-oriented. I did almost all of the frontend redesign on BEMER v2 inside that system, and I own the Python side across the portfolio: data modelling, business rules, backend workflows, automation, security, testing.
+
 | Area | Owner |
 |------|------|
-| Python backend, data layer, Firebase, security | Tamas (me) |
-| React frontend, UX, TypeScript, visual design | Zsombor |
+| Python backend, data layer, Firebase, security, testing | Tamas (me) |
+| Visual system, component language, TypeScript patterns | Zsombor |
+| Frontend implementation (React, TypeScript) | Both — Tamas did most of BEMER v2 |
 | Architecture, content, case studies | Both |
-
-Zsombor leads the design language — minimalist, architectural, craft-oriented. I own the Python side: data modelling, business rules, backend workflows, automation, security, testing. On projects where I also contributed frontend (BEMER v2, KEV Explorer, Advisory Composer), Zsombor set the design system and component vocabulary; I built components inside that grammar.
 
 ## Public case studies
 
@@ -39,9 +40,9 @@ Listed at [czaban.dev/portfolio](https://www.czaban.dev/portfolio), with longer 
 
 ## Why "design-led"
 
-The category descriptor on czaban.dev is deliberate. Most small custom-software shops ship functional but visually unremarkable work — the pattern is to treat UI as an afterthought to the backend. CZ Dev takes the opposite approach: Zsombor's design work comes first, and the backend is built to honour it. Every case study ships with considered typography, whitespace, and interaction design, not just a working feature set.
+Most small custom-software shops ship functional but visually unremarkable work. The pattern is to treat UI as an afterthought to the backend. CZ Dev flips that. Zsombor's visual system comes first, and the backend is built to honour it. Every case study ships with considered typography, whitespace, and interaction design, not just a working feature set.
 
-For me personally, working inside that design grammar was where I first learned how much a principled frontend system changes the engineering experience. On v1 of BEMER the UX was what Streamlit allowed. On v2 it's what Zsombor's design system dictates — and the code is better for it.
+On v1 of BEMER the UX was what Streamlit allowed. On v2 I rebuilt most of the frontend inside Zsombor's design system. The code is cleaner, the interactions are right for a mobile-first medical-device operator, and the production experience is a step-change from the v1 baseline.
 
 ## Tech choices across the portfolio
 
