@@ -46,9 +46,9 @@ Streamlit hits the sweet spot:
 - **Runs where Python runs** — local, cloud, internal server
 - **Easy to update** — when the data changes or the team wants a new filter, I change one file
 
-## The BEMER CRM
+## Vital Registry (v1)
 
-The most complex Streamlit app I've built is a full CRM for BEMER product distributors. It manages customer contacts, tracks deals through a sales pipeline, processes payments via Stripe, and syncs everything in real time through Firebase Firestore.
+The most complex Streamlit app I've built is Vital Registry, a full CRM for BEMER medical device distributors. It manages customer contacts, tracks deals through a sales pipeline, processes payments via Stripe, and syncs everything in real time through Firebase Firestore.
 
 This pushed Streamlit into territory it's not always associated with — persistent state, multi-user access, role-based auth, live data. It works because Streamlit's component model is flexible enough, and because Firebase handles the heavy lifting of real-time sync and authentication.
 
