@@ -1,6 +1,6 @@
 ---
-title: "BEMER CRM v2 — React Production"
-summary: "Full React migration of the BEMER CRM built with my brother for our Mum's medical device rental business. Same Firebase + Stripe backbone, redesigned UI, dev/UAT/prod deployment pipeline, and live at vital-registry.com/contracts."
+title: "Vital Registry v2 — React Production"
+summary: "Full React migration of Vital Registry, the production CRM built with my brother for our Mum's BEMER medical device rental business. Same Firebase + Stripe backbone, redesigned UI, dev/UAT/prod deployment pipeline, and live at vital-registry.com/contracts."
 date: "Apr 01 2026"
 draft: false
 tags:
@@ -14,7 +14,7 @@ demoUrl: "https://vital-registry.com/contracts"
 repoUrl: "https://github.com/TamasCzaban"
 ---
 
-The React rewrite of the BEMER CRM. Same business logic as v1 ([Streamlit version](/projects/bemer-crm/)), redesigned from scratch in React + TypeScript, and running in production at [vital-registry.com/contracts](https://vital-registry.com/contracts).
+The React rewrite of Vital Registry. Same business logic as v1 ([Streamlit version](/projects/bemer-crm/)), redesigned from scratch in React + TypeScript, and running in production at [vital-registry.com/contracts](https://vital-registry.com/contracts).
 
 > **Live production app** — non-technical user (our Mum) runs her BEMER rental business on it daily.
 
