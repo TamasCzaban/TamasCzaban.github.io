@@ -33,8 +33,8 @@ Listed at [czaban.dev/portfolio](https://www.czaban.dev/portfolio), with longer 
 
 | Project | What | Stack | Role |
 |---|---|---|---|
-| [MedKölcsön v1](/projects/bemer-crm/) | Production rental/sales CRM for a medical device business | Python, Streamlit, Firebase | Auth, navigation, 391-test suite |
-| [MedKölcsön v2](/projects/bemer-crm-v2/) | React rewrite of v1, live at vital-registry.com | React, TypeScript, Firebase | Data-layer port, multi-env deployment |
+| [Vital Registry v1](/projects/vital-registry/) | Production rental/sales CRM for a medical device business | Python, Streamlit, Firebase | Auth, navigation, 391-test suite |
+| [Vital Registry v2](/projects/vital-registry-v2/) | React rewrite of v1, live at vital-registry.com | React, TypeScript, Firebase | Data-layer port, multi-env deployment |
 | [KEV Explorer](/projects/kev-explorer/) | Interactive dashboard over CISA's 1,500+ Known Exploited Vulnerabilities | React, TypeScript, Recharts, GitHub Actions | Security data enrichment, EPSS scoring |
 | [Advisory Composer](/projects/advisory-composer/) | Browser tool converting lockfiles into multi-channel security advisories | React, TypeScript, OSV.dev, EPSS | OSV query logic, formatter, Slack Block Kit |
 

@@ -14,7 +14,7 @@ demoUrl: "https://vital-registry.com/contracts"
 repoUrl: "https://github.com/TamasCzaban"
 ---
 
-The React rewrite of Vital Registry. Same business logic as v1 ([Streamlit version](/projects/bemer-crm/)), redesigned from scratch in React + TypeScript, and running in production at [vital-registry.com/contracts](https://vital-registry.com/contracts).
+The React rewrite of Vital Registry. Same business logic as v1 ([Streamlit version](/projects/vital-registry/)), redesigned from scratch in React + TypeScript, and running in production at [vital-registry.com/contracts](https://vital-registry.com/contracts).
 
 > **Live production app** — non-technical user (our Mum) runs her BEMER rental business on it daily.
 
