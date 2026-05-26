@@ -54,3 +54,11 @@ On v1 of BEMER the UX was what Streamlit allowed. On v2 I rebuilt most of the fr
 ## Status
 
 Actively running. BEMER v2 is the first client in sustained production. KEV Explorer and Advisory Composer are public tools used as proof of what CZ Dev ships. I keep CZ Dev strictly out-of-hours alongside my full-time role.
+
+## How we ship
+
+Every feature goes through the same pipeline: grill-me surfaces decisions, an Opus agent scopes a structured PRD, that PRD is sliced into vertical issues, and GSD drives Sonnet execution with adversarial review loops, then a human gate before merge.
+The full story is in the [Agentic Dev Workflow](/projects/agentic-dev-workflow/) project page.
+
+The narrative behind why we built the pipeline and what broke before we had it: [Idea to Shipped: Building an Agentic Development Pipeline for a Two-Person Team](/blog/12-agentic-idea-to-ship/).
+The adversarial review stage in detail: [AI Reviews AI: The Adversarial Review Agent and the Human-in-the-Loop Gate](/blog/13-adversarial-review-hil/).
