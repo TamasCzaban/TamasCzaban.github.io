@@ -24,7 +24,7 @@ The Socratic format matters here. I didn't lecture. I asked questions and waited
 
 Once the model made sense, the next decision was what to build.
 
-Not a chatbot. Not something exploratory or open-ended. The right first project is the thing they hate doing every week.
+The right first project is the thing they hate doing every week.
 
 For this cohort, that was a weekly report. Every week, the same steps: open a set of Excel files, pull specific columns, aggregate, format, copy the output into a template. The whole process took about an hour. Nobody liked it. Everyone knew it was mechanical. And it was the perfect candidate.
 
@@ -47,13 +47,13 @@ summary = combined.groupby(["Region", "Status"])["Count"].sum().reset_index()
 summary.to_excel(output_path, index=False)
 ```
 
-That's it. Thirty seconds instead of an hour. The first time it runs correctly, something shifts. It's not an abstract "this could save you time." It saved them time today. They watched it happen. That's the moment the door opens.
+That's it. Thirty seconds instead of an hour. The first time it runs correctly, the skepticism drops. Not an abstract promise: they watched it happen. That's the moment the door opens.
 
 ## The walkthrough, not the answer
 
 The teaching mechanism that worked here was the same Socratic approach from the first session. Rather than writing the script for them, I sat with them and asked questions about their own process. "Walk me through what you do first. What file do you open? What do you look for in that file?" The automation structure came out of describing what they already did manually.
 
-Once the structure was visible, the code followed naturally. They weren't learning Python in the abstract. They were writing down what they already knew how to do, in a different notation.
+Once the structure was visible, the code followed. They weren't learning Python in the abstract. They were writing down what they already knew how to do, in a different notation.
 
 The distinction matters for ownership. When someone watches you write code, they have a script. When they trace the logic from their own description of the task, they have understanding. And understanding is what lets them modify it six weeks later when the source file format changes.
 
