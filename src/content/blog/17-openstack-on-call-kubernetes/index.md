@@ -10,7 +10,7 @@ Two years at Ericsson, Tier-2 24/7 on-call for enterprise OpenStack infrastructu
 
 The common reaction from infrastructure recruiters is that OpenStack is a gap in the context of a Kubernetes role. The mapping is direct.
 
-## What Tier-2 actually means
+## What Tier-2 means
 
 Tier-1 is basic triage: restart the service, check the logs, confirm the alert is real. By the time a case reaches Tier-2, that has already failed. Something has broken in a way that basic triage cannot resolve, there are real users affected right now, and the on-call engineer has to figure out what it is under pressure.
 
@@ -20,15 +20,15 @@ The scope at Ericsson covered three major subsystems: Nova for compute schedulin
 
 After every incident, I wrote a structured RCA report with five fields:
 
-**Mechanism** — what actually broke at the technical level.
+**Mechanism**: what broke at the technical level.
 
-**Trigger** — what caused it to break at this moment.
+**Trigger**: what caused it to break at this moment.
 
-**Contributing factors** — what made it worse than it needed to be.
+**Contributing factors**: what made it worse than it needed to be.
 
-**Fix** — what resolved it.
+**Fix**: what resolved it.
 
-**Prevention** — what stops it from recurring.
+**Prevention**: what stops it from recurring.
 
 This is not bureaucracy. "The compute scheduler was misconfigured" does not help the next on-call engineer. "Nova's `ram_allocation_ratio` was set to 1.0 on a subset of compute hosts after the maintenance window, causing those hosts to appear full to the scheduler while physically underutilised" is a runbook entry that prevents a repeat. Repeat failures dropped once this practice was in place because prevention recommendations got implemented rather than filed.
 
