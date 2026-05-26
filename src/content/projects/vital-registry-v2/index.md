@@ -56,3 +56,12 @@ Every business rule that was explicitly covered by the 391-test suite in v1 maps
 Co-developed with my brother Zsombor, who set the visual system and component language. I did almost all of the frontend redesign on top of it, plus the data-layer port from v1, multi-environment deployment setup, and the test harness that carries over from v1.
 
 Case study: [czaban.dev/portfolio](https://www.czaban.dev/portfolio) (MedKölcsön v2).
+
+## Running it in production
+
+The app runs across three environments gated by GitHub Actions: feature branches to dev, PRs to UAT, main to prod.
+All wired up on the Firebase Spark (personal) plan with Gitleaks on every run and weekly scheduled CVE scans.
+Full story: [Three-Environment GitOps on a Firebase Personal Plan](/blog/14-gitops-firebase-personal-plan/).
+
+With 20 active users and hard Spark plan quota limits, the monitoring setup is simple but deliberate: PostHog WAU tracking, Firebase alerts that fire before the limits hit, and one rule — know your quota headroom, WAU, and error rate before your users do.
+Details: [The Three Numbers That Matter: PostHog + Firebase Monitoring](/blog/15-posthog-firebase-monitoring/).
