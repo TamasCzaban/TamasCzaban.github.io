@@ -1,6 +1,6 @@
 ---
 title: "Why I Build Internal Tools with Streamlit"
-summary: "Streamlit lets you ship a real, interactive web app in a fraction of the time it takes with a traditional stack. Here's why I keep reaching for it."
+summary: "Streamlit lets you ship a real, interactive web app in a fraction of the time it takes with a traditional stack. I reach for it on almost every internal tool."
 date: "Feb 10 2025"
 draft: false
 tags:

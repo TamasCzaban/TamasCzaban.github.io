@@ -1,5 +1,5 @@
 ---
-title: "Vital Registry v1 — Streamlit Production"
+title: "Vital Registry v1: Streamlit Production"
 summary: "The v1 of Vital Registry: a production full-stack CRM built with my brother for our Mum's BEMER medical device rental business. Streamlit frontend over Firebase Firestore, Stripe billing, Google/Facebook OAuth, client-side PDF contract generation, dual inventory (B2C + B2B cross-rentals), multi-entity billing, and 391 passing tests."
 date: "Jan 01 2024"
 draft: false

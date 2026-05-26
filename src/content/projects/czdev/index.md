@@ -1,5 +1,5 @@
 ---
-title: "CZ Dev — Software Agency (Co-Founder)"
+title: "CZ Dev: Software Agency (Co-Founder)"
 summary: "Co-founded with my brother Zsombor. Custom software for founders who've outgrown spreadsheets and no-code. Four shipped case studies across production CRM, security tooling, and vulnerability automation. Design-led frontend, Python backend, full-stack delivery."
 date: "Mar 01 2026"
 draft: false
@@ -48,7 +48,7 @@ On v1 of BEMER the UX was what Streamlit allowed. On v2 I rebuilt most of the fr
 
 - **Frontend:** React + TypeScript on every recent project. Component libraries we trust rather than building from scratch.
 - **Backend:** Firebase for realtime-state apps (BEMER). Static + serverless where possible (KEV Explorer, Advisory Composer).
-- **Data sources:** OSV.dev, CISA KEV feed, EPSS, NVD API v2 — public security data surfaced in interfaces defenders will actually use.
+- **Data sources:** OSV.dev, CISA KEV feed, EPSS, NVD API v2. Public security data surfaced in interfaces defenders use.
 - **Delivery:** Multi-environment pipelines (dev/UAT/prod) on the production apps. GitHub Actions for nightly data refreshes on the public tools.
 
 ## Status
@@ -60,5 +60,5 @@ Actively running. BEMER v2 is the first client in sustained production. KEV Expl
 Every feature goes through the same pipeline: grill-me surfaces decisions, an Opus agent scopes a structured PRD, that PRD is sliced into vertical issues, and GSD drives Sonnet execution with adversarial review loops, then a human gate before merge.
 The full story is in the [Agentic Dev Workflow](/projects/agentic-dev-workflow/) project page.
 
-The narrative behind why we built the pipeline and what broke before we had it: [Idea to Shipped: Building an Agentic Development Pipeline for a Two-Person Team](/blog/12-agentic-idea-to-ship/).
-The adversarial review stage in detail: [AI Reviews AI: The Adversarial Review Agent and the Human-in-the-Loop Gate](/blog/13-adversarial-review-hil/).
+The narrative behind why we built the pipeline and what broke before we had it: [Idea to Shipped: Building an Agentic Development Pipeline for a Two Person Team](/blog/12-agentic-idea-to-ship/).
+The adversarial review stage in detail: [AI Reviews AI: The Adversarial Review Agent and the Human in the Loop Gate](/blog/13-adversarial-review-hil/).

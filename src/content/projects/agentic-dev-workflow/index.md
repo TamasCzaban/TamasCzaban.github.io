@@ -1,6 +1,6 @@
 ---
-title: "Agentic Dev Workflow — Idea to Ship"
-summary: "A golden-path CI/CD of the mind: grill-me surfaces decisions, Opus scopes a PRD, Sonnet executes vertical slices, an adversarial-review agent runs fix loops, and a human-in-the-loop gate approves before auto-merge."
+title: "Agentic Dev Workflow: Idea to Ship"
+summary: "A golden path CI/CD of the mind: grill-me surfaces decisions, Opus scopes a PRD, Sonnet executes vertical slices, an adversarial review agent runs fix loops, and a human in the loop gate approves before auto-merge."
 date: "May 26 2026"
 tags: ["DevEx", "AI", "CI/CD", "Automation"]
 demoUrl: "https://www.czaban.dev"

@@ -1,6 +1,6 @@
 ---
-title: "Three-Environment GitOps on a Firebase Personal Plan"
-summary: "Dev on feature branches, UAT on PRs, prod on main — all with branch protections, Gitleaks on every run, pinned dependency versions, and weekly scheduled CVE scans. No paid plan required."
+title: "Three Environment GitOps on a Firebase Personal Plan"
+summary: "Dev on feature branches, UAT on PRs, prod on main, all with branch protections, Gitleaks on every run, pinned dependency versions, and weekly scheduled CVE scans. No paid plan required."
 date: "May 26 2026"
 tags: ["Firebase", "CI/CD", "Security", "DevEx"]
 draft: false
@@ -50,7 +50,7 @@ This is different from relying on middleware or application-layer access control
 
 ## The actual thesis
 
-Shift-left security is a practice, not a checklist item. Moving Gitleaks before the deploy, running CVE scans on a schedule independent of deployments, pinning versions before a supply-chain incident forces the issue — these decisions cost almost nothing individually. Collectively, they define what security hygiene looks like when it is a habit rather than a reaction.
+Shift left security is a practice, not a checklist item. Moving Gitleaks before the deploy, running CVE scans on a schedule independent of deployments, pinning versions before a supply-chain incident forces the issue — these decisions cost almost nothing individually. Collectively, they define what security hygiene looks like when it is a habit rather than a reaction.
 
 Personal projects are where habits form. The pipeline built for Vital Registry on a personal plan is the same pipeline I would build for a team of ten on an enterprise plan, because the constraints do not change the logic. Secrets leak regardless of team size. Supply-chain attacks do not check your GitHub plan tier. Production data warrants production-grade controls at any scale.
 

@@ -1,6 +1,6 @@
 ---
 title: "The Right Way to Connect SQL to Power BI"
-summary: "Pulling data straight from a database into Power BI works — until it doesn't. Here's the pattern I use to keep reports fast, clean, and maintainable."
+summary: "Pulling data straight from a database into Power BI works until it doesn't. The pattern that keeps reports fast, clean, and maintainable."
 date: "Oct 15 2024"
 draft: false
 tags:

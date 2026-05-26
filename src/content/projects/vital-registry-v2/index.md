@@ -1,5 +1,5 @@
 ---
-title: "Vital Registry v2 — React Production"
+title: "Vital Registry v2: React Production"
 summary: "Full React migration of Vital Registry, the production CRM built with my brother for our Mum's BEMER medical device rental business. Same Firebase + Stripe backbone, redesigned UI, dev/UAT/prod deployment pipeline, and live at vital-registry.com/contracts."
 date: "Apr 01 2026"
 draft: false
@@ -61,7 +61,7 @@ Case study: [czaban.dev/portfolio](https://www.czaban.dev/portfolio) (MedKölcs�
 
 The app runs across three environments gated by GitHub Actions: feature branches to dev, PRs to UAT, main to prod.
 All wired up on the Firebase Spark (personal) plan with Gitleaks on every run and weekly scheduled CVE scans.
-Full story: [Three-Environment GitOps on a Firebase Personal Plan](/blog/14-gitops-firebase-personal-plan/).
+Full story: [Three Environment GitOps on a Firebase Personal Plan](/blog/14-gitops-firebase-personal-plan/).
 
 With 20 active users and hard Spark plan quota limits, the monitoring setup is simple but deliberate: PostHog WAU tracking, Firebase alerts that fire before the limits hit, and one rule — know your quota headroom, WAU, and error rate before your users do.
 Details: [The Three Numbers That Matter: PostHog + Firebase Monitoring](/blog/15-posthog-firebase-monitoring/).

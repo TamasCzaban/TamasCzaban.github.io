@@ -1,6 +1,6 @@
 ---
-title: "The Three Numbers That Matter: PostHog + Firebase Monitoring for a 20-User Production App"
-summary: "20 active users, Firebase Spark plan hard quota limits, and the rule: know your quota headroom, WAU, and error rate before your users do. Here's how PostHog event instrumentation and Firebase budget alerts keep a small app alive."
+title: "The Three Numbers That Matter: PostHog + Firebase Monitoring for a 20 User Production App"
+summary: "20 active users, Firebase Spark plan hard quota limits, and the rule: know your quota headroom, WAU, and error rate before your users do. PostHog event instrumentation and Firebase budget alerts keep a small app alive."
 date: "May 26 2026"
 tags: ["Firebase", "Python", "Automation", "DevEx"]
 draft: false

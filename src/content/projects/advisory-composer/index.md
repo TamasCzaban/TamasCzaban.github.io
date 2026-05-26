@@ -1,6 +1,6 @@
 ---
 title: "Advisory Composer"
-summary: "Browser tool that takes any lockfile — npm, pip, Go, Cargo, CycloneDX SBOM — queries OSV.dev and EPSS, and generates formatted security advisories for four channels in one pass: email drafts, Slack Block Kit JSON, GitHub PR comment markdown, and CSV exports. Pure client-side, zero backend, EPSS-weighted prioritisation."
+summary: "Browser tool that takes any lockfile (npm, pip, Go, Cargo, CycloneDX SBOM), queries OSV.dev and EPSS, and generates formatted security advisories for four channels in one pass: email drafts, Slack Block Kit JSON, GitHub PR comment markdown, and CSV exports. Pure client-side, zero backend, EPSS-weighted prioritisation."
 date: "Apr 12 2026"
 draft: false
 tags:

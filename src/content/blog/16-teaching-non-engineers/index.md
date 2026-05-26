@@ -1,6 +1,6 @@
 ---
-title: "Finding the Front Door: Teaching Non-Engineers Their First Automation"
-summary: "A Citi cohort had AI tools but no entry point. Socratic sessions from first principles — tokens, models, prompting — and a first project: a Pandas Excel automation replacing a manual weekly report. The blocker is never the tech."
+title: "Finding the Front Door: Teaching Non Engineers Their First Automation"
+summary: "A Citi cohort had AI tools but no entry point. Socratic sessions from first principles (tokens, models, prompting) and a first project: a Pandas Excel automation replacing a manual weekly report. The blocker is never the tech."
 date: "May 26 2026"
 tags: ["Python", "Automation", "DevEx", "AI"]
 draft: false

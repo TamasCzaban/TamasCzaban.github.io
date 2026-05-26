@@ -1,6 +1,6 @@
 ---
 title: "One Scan, Four Channels: Advisory Composer as a Pure Client-Side Tool"
-summary: "Vulnerability disclosure inside a company is always multi-channel — email to owners, Slack to teams, a PR comment on the dependency bump, a CSV for the audit log. Same data, four formats. Here's how I built a browser-only tool that does all four from a single lockfile upload."
+summary: "Vulnerability disclosure inside a company is always multi-channel: email to owners, Slack to teams, a PR comment on the dependency bump, a CSV for the audit log. Same data, four formats. I built a browser-only tool that does all four from a single lockfile upload."
 date: "Apr 12 2026"
 draft: false
 tags:

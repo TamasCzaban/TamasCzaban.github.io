@@ -1,6 +1,6 @@
 ---
-title: "Joining KEV and EPSS at Build Time: a Static-Site Vulnerability Dashboard"
-summary: "CVSS tells you how severe a CVE theoretically is. KEV tells you whether it's been exploited. EPSS tells you how likely it is to be exploited. Here's how I joined all three into a single React dashboard that deploys as a static site and refreshes itself nightly via GitHub Actions."
+title: "Joining KEV and EPSS at Build Time: a Static Site Vulnerability Dashboard"
+summary: "CVSS tells you how severe a CVE theoretically is. KEV tells you whether it's been exploited. EPSS tells you how likely it is to be exploited next month. I joined all three into a single React dashboard that deploys as a static site and refreshes itself nightly via GitHub Actions."
 date: "Apr 12 2026"
 draft: false
 tags:

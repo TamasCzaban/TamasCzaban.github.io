@@ -1,6 +1,6 @@
 ---
 title: "Olympic Games Dashboard"
-summary: "Historical summer Olympics performance dashboard built with SQL Server and Power BI — filterable by country, with medal counts, age group breakdowns, and competitor-level drill-through."
+summary: "Historical summer Olympics performance dashboard built with SQL Server and Power BI, filterable by country, with medal counts, age group breakdowns, and competitor-level drill-through."
 date: "Sep 01 2022"
 draft: false
 tags:

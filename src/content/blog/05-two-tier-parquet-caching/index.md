@@ -1,6 +1,6 @@
 ---
 title: "Manifest-Based Parquet Caching for a Streamlit Dashboard with Shifting Requirements"
-summary: "SQL queries that take minutes. Stakeholder requirements that change weekly. No sprint planning. Here's the caching architecture I built to handle all three."
+summary: "SQL queries that take minutes. Requirements that change weekly. No sprint planning. The caching architecture that handles all three."
 date: "Mar 10 2026"
 draft: false
 tags:

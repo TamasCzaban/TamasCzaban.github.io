@@ -1,6 +1,6 @@
 ---
-title: "AI Reviews AI: The Adversarial Review Agent and the Human-in-the-Loop Gate"
-summary: "An Opus agent runs two hostile fix loops on Sonnet's output before a human sees it. Here's what the review agent looks for, how the fix loops work, and exactly where the human stays in control."
+title: "AI Reviews AI: The Adversarial Review Agent and the Human in the Loop Gate"
+summary: "An Opus agent runs two hostile fix loops on Sonnet's output before a human sees it: what the review agent checks, how the fix loops run, and where the human stays in control."
 date: "May 26 2026"
 tags: ["AI", "DevEx", "Automation", "CI/CD"]
 draft: false
@@ -36,7 +36,7 @@ Unlimited fix loops thrash. Findings that conflict with each other, or where a f
 
 The human does not see the diff until after the fix loops complete. This is deliberate.
 
-Position the gate before review loops and the human becomes a filter for mechanical errors: missing fields, broken links, logic gaps a review agent catches in seconds. Judgment degrades on the things that actually require it.
+Position the gate before review loops and the human becomes a filter for mechanical errors: missing fields, broken links, logic gaps a review agent catches in seconds. Judgment degrades on the things that require it.
 
 After review loops pass, what reaches the human is a diff reviewed by a fresh-context Opus agent and fixed by a fresh-context fixer. The human's attention goes to questions the review agent cannot answer: is the framing right for the audience, should this feature exist in this form, does the implementation reflect what was intended when the issue was written. On approval, the orchestrator merges to dev and cleans up the branch. On rejection, the human's findings go back to the executor as a new set of acceptance criteria.
 

@@ -1,12 +1,12 @@
 ---
-title: "OpenStack On-Call to Kubernetes: The Concepts Map Directly"
-summary: "Ericsson Tier-2 24/7, 95% on-time delivery, 90% queue utilisation — diagnosing Nova compute scheduling failures, Neutron flapping interfaces, and Swift storage under a structured RCA framework. Here's why that maps straight to Kubernetes."
+title: "OpenStack On Call to Kubernetes: The Concepts Map Directly"
+summary: "Ericsson Tier 2 24/7, 95% on time delivery, 90% queue utilisation, diagnosing Nova compute scheduling failures, Neutron flapping interfaces, and Swift storage under a structured RCA framework. The diagnostic reasoning maps straight to Kubernetes."
 date: "May 26 2026"
 tags: ["Kubernetes", "Automation", "CI/CD", "DevEx"]
 draft: false
 ---
 
-Two years at Ericsson, Tier-2 24/7 on-call for enterprise OpenStack infrastructure. Nova compute scheduling failures, Neutron east-west networking incidents, Swift object storage degradation. 95% on-time delivery across the queue. 90% utilisation while managing concurrent critical cases.
+Two years at Ericsson, Tier-2 24/7 on-call for enterprise OpenStack infrastructure. Nova compute scheduling failures, Neutron east-west networking incidents, Swift object storage degradation. 95% on time delivery across the queue. 90% utilisation while managing concurrent critical cases.
 
 The common reaction from infrastructure recruiters is that OpenStack is a gap in the context of a Kubernetes role. The mapping is direct.
 

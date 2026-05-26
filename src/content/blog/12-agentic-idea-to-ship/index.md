@@ -1,6 +1,6 @@
 ---
-title: "Idea to Shipped: Building an Agentic Development Pipeline for a Two-Person Team"
-summary: "How grill-me, structured PRDs, vertical slice issues, and GSD-driven execution replaced ad-hoc async coordination for a Budapest–Greece remote team — and what it took to make the pipeline reproducible."
+title: "Idea to Shipped: Building an Agentic Development Pipeline for a Two Person Team"
+summary: "How grill-me, structured PRDs, vertical slice issues, and GSD driven execution replaced ad hoc async coordination for a Budapest to Greece remote team, and what it took to make the pipeline reproducible."
 date: "May 26 2026"
 tags: ["DevEx", "AI", "Automation", "CI/CD"]
 draft: false

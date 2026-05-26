@@ -1,6 +1,6 @@
 ---
 title: "From Data Analyst to Security Analyst: What Transfers"
-summary: "Moving from BI and data analysis into vulnerability management wasn't a pivot — it was the same skills in a different domain. Here's what I learned."
+summary: "Moving from BI and data analysis into vulnerability management wasn't a pivot. It was the same skills in a different domain."
 date: "Mar 01 2025"
 draft: false
 tags:
