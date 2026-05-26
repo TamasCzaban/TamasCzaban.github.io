@@ -6,11 +6,11 @@ tags: ["AI", "DevEx", "Automation", "CI/CD"]
 draft: true
 ---
 
-The executor that wrote the code cannot review it. Not because the model is incapable, but because the context is contaminated. When a Sonnet agent builds a feature, it reads its own diff the way it meant to write it, not the way it reads. Acceptance criteria that are technically met but point in the wrong direction get a pass. Logic gaps rationalize themselves as design choices.
+The executor that wrote the code cannot review it. Not because the model is incapable, but because the context is contaminated. A Sonnet agent that builds a feature reads its own diff the way it meant to write it, not the way it reads. Acceptance criteria that are technically met but point in the wrong direction get a pass. The executor rationalizes logic gaps as design choices.
 
-The adversarial review agent solves this by being a completely different context. It receives the diff, the changed files, the acceptance criteria from the GitHub issue, and the project conventions from CLAUDE.md. Nothing from the implementing conversation. Its job is to derive understanding from the artifact alone.
+The adversarial review agent solves this by being a separate context. It receives the diff, the changed files, the acceptance criteria from the GitHub issue, and the project conventions from CLAUDE.md. Nothing from the implementing conversation. Its job is to derive understanding from the artifact alone.
 
-## What the review agent actually checks
+## What the review agent checks
 
 The reviewer prompt is a structured skill file. It forces a specific output format: a verdict (APPROVE, REQUEST_CHANGES, or NEEDS_DISCUSSION), an acceptance criteria coverage table, and findings bucketed by severity.
 
@@ -22,7 +22,7 @@ Cross-links and schema compliance follow the same pattern. If the diff touches c
 
 ## The fix loop
 
-When the reviewer returns REQUEST_CHANGES, the orchestrator spawns a fixer subagent, also in fresh context. It reads the REVIEW.md findings, the diff, and only the files mentioned in specific findings. The executor's planning documents stay out of scope: giving the fixer those notes would reintroduce the bias the review step was designed to eliminate.
+On REQUEST_CHANGES, the orchestrator spawns a fixer subagent in fresh context. It reads the REVIEW.md findings, the diff, and only the files mentioned in specific findings. The executor's planning documents stay out of scope: giving the fixer those notes would reintroduce the bias the review step was designed to eliminate.
 
 The fixer works through findings in priority order: CRITICAL first, then SHOULD-FIX, then NITs if cheap. Each addressed finding gets a commit message that references the finding ID. Anything deferred or rejected as a false positive is documented in FIX-LOG.md with a reason.
 
@@ -30,7 +30,7 @@ After the fixer commits, a new reviewer spawns with no memory of the prior round
 
 ## Why two iterations and not unlimited
 
-Unlimited fix loops thrash. When findings conflict with each other, or when a fix to one finding breaks another, more iterations do not converge, they amplify the disagreement. After two passes, remaining open findings are judgment calls: whether the implementation points in the right direction, whether the acceptance criteria were written correctly, whether a finding reflects a real problem in the code or a real problem in the spec. A third Opus round would produce a decision. It would not necessarily produce the right one.
+Unlimited fix loops thrash. Findings that conflict with each other, or where a fix to one breaks another, amplify the disagreement across iterations rather than resolving it. After two passes, remaining open findings are judgment calls: whether the implementation points in the right direction, whether the acceptance criteria were written correctly, whether a finding reflects a real problem in the code or a real problem in the spec. A third Opus round would produce a decision, not the right one.
 
 ## Where the human sits
 
