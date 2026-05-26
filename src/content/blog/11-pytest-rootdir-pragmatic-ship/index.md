@@ -71,15 +71,15 @@ Two clean solutions, both minimal:
 pythonpath = ["src"]
 ```
 
-Available since pytest 7.0. Explicitly adds `src/` to the module search path, bypassing the `rootdir` anchoring problem entirely.
+Available since pytest 7.0. Adds `src/` to the module search path, bypassing the `rootdir` anchoring problem.
 
-Either fix resolves this in minutes. I know that now. I did not know it at hour ten.
+Either fix resolves this in minutes. I know that now. At hour ten, I did not.
 
 ## The pragmatic call at hour 15
 
 The Tekton pipeline had 13 stages. After `python-build` came Snyk security scanning, SonarQube code quality analysis, Helm chart publication, container image build, and deployment to OpenShift. None of those stages could run while stage one was failing.
 
-Snyk catches CVEs before the image ships. SonarQube catches code smells that accumulate silently. These were the pipeline's core value for a production deployment at an enterprise bank.
+Snyk catches CVEs before the image ships. SonarQube catches code smells that accumulate undetected. These were the pipeline's core value for a production deployment at an enterprise bank.
 
 At hour 15, with no remaining untried approaches, I set the test command in `pipeline.yaml` to `pass`. The stage would succeed. The remaining 12 stages could run.
 
@@ -90,7 +90,7 @@ At hour 15, with no remaining untried approaches, I set the test command in `pip
     pass  # TODO: pytest rootdir anchoring — see docs/tech-debt.md
 ```
 
-The debt was documented immediately: symptom, approaches tried, the real fix, a link to the pytest docs. The pipeline shipped. Snyk ran. SonarQube ran. The container was built and deployed.
+I documented the debt that session: symptom, approaches tried, the real fix, a link to the pytest docs. The pipeline shipped. Snyk ran. SonarQube ran. The container was built and deployed.
 
 ## Why this was the right call
 
