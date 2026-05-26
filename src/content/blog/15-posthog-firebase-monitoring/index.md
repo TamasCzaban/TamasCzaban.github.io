@@ -14,11 +14,11 @@ That constraint reshaped how I think about observability. The goal is not a rich
 
 ## The three numbers
 
-**Quota headroom** is the distance between current usage and the limit that kills the app. I configured Firebase budget alerts at thresholds well below each hard limit — not at 90%, but earlier, at a point where there is still time to investigate. The alerts fire to email. They are not informational; they are a signal to act before the billing cycle ends.
+**Quota headroom** is the distance between current usage and the limit that kills the app. I configured Firebase budget alerts at thresholds below each hard limit: not at 90%, but earlier, at a point where there is still time to investigate. The alerts fire to email. They are not informational; they are a signal to act before the billing cycle ends.
 
 **Weekly active users** is the retention signal. For 20 users, WAU does not need statistical significance — it needs to be visible. PostHog tracks this through event instrumentation on the key actions: device check-out, rental contract creation, payment recording. These are not vanity pageview events. They are the actions that confirm the app is being used for its purpose. If WAU drops from 18 to 11 week-over-week, that is a retention problem before any user has said a word.
 
-**Error rate** is the reliability signal. Unhandled exceptions in cloud functions disappear silently unless you capture them. I instrument uncaught exceptions from cloud functions as PostHog events with the function name and error type as properties. A spike in error rate on the contract-creation function before a spike in user complaints is the gap observability is supposed to close.
+**Error rate** is the reliability signal. Unhandled exceptions in cloud functions disappear undetected unless you capture them. I instrument uncaught exceptions from cloud functions as PostHog events with the function name and error type as properties. A spike in error rate on the contract-creation function before a spike in user complaints is the gap observability is supposed to close.
 
 ## Why these three
 
@@ -30,7 +30,7 @@ PostHog's free tier covers this. The React frontend initialises the client and c
 
 ## Firebase budget alerts
 
-Alert configuration lives in Google Cloud Console's Billing section, not in the Firebase Console. I set two alert levels per critical quota category: one at a moderate threshold to flag elevated usage, and a second closer to the limit to demand action. Cloud function invocations are the most easily spiked — a retry bug can run up the counter fast. Firestore reads and writes are secondary; the access patterns are predictable. CPU minutes are a backstop. All three have tiered alerts.
+Alert configuration lives in Google Cloud Console's Billing section, not in the Firebase Console. I set two alert levels per critical quota category: one at a moderate threshold to flag elevated usage, and a second closer to the limit to demand action. Cloud function invocations are the easiest to spike: a retry bug can exhaust the counter fast. Firestore reads and writes are secondary; the access patterns are predictable. CPU minutes are a backstop. All three have tiered alerts.
 
 This sits alongside the GitOps and branch-protection setup described in the [companion security post](/blog/14-gitops-firebase-personal-plan/). The pipeline controls what gets deployed; the alerts control whether what is deployed is behaving within the infrastructure's limits.
 
@@ -40,4 +40,4 @@ Production-grade is not a function of user count. Vital Registry's users manage 
 
 The setup took less than a day: PostHog instrumentation across key actions is roughly 15 lines of client code, and Firebase budget alerts are a handful of form fields. The ongoing cost is zero. The ongoing time cost is a dashboard check once a week.
 
-The three numbers are not a substitute for deeper observability if the app grows. They are the minimum viable monitoring for a production app where three specific failure modes can hurt real users. Knowing them before your users do is what monitoring is actually for.
+The three numbers are not a substitute for deeper observability if the app grows. They are the minimum viable monitoring for a production app where three specific failure modes can hurt real users. Knowing them before your users do is what monitoring is for.
