@@ -3,7 +3,7 @@ title: "Idea to Shipped: Building an Agentic Development Pipeline for a Two-Pers
 summary: "How grill-me, structured PRDs, vertical slice issues, and GSD-driven execution replaced ad-hoc async coordination for a Budapest–Greece remote team — and what it took to make the pipeline reproducible."
 date: "May 26 2026"
 tags: ["DevEx", "AI", "Automation", "CI/CD"]
-draft: true
+draft: false
 ---
 
 The first real problem wasn't missing a feature. It was Zsombor starting work on the wrong thing.

@@ -3,7 +3,7 @@ title: "AI Reviews AI: The Adversarial Review Agent and the Human-in-the-Loop Ga
 summary: "An Opus agent runs two hostile fix loops on Sonnet's output before a human sees it. Here's what the review agent looks for, how the fix loops work, and exactly where the human stays in control."
 date: "May 26 2026"
 tags: ["AI", "DevEx", "Automation", "CI/CD"]
-draft: true
+draft: false
 ---
 
 The executor that wrote the code cannot review it. Not because the model is incapable, but because the context is contaminated. A Sonnet agent that builds a feature reads its own diff the way it meant to write it, not the way it reads. Acceptance criteria that are technically met but point in the wrong direction get a pass. The executor rationalizes logic gaps as design choices.

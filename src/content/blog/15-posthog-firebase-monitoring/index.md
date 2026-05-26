@@ -3,7 +3,7 @@ title: "The Three Numbers That Matter: PostHog + Firebase Monitoring for a 20-Us
 summary: "20 active users, Firebase Spark plan hard quota limits, and the rule: know your quota headroom, WAU, and error rate before your users do. Here's how PostHog event instrumentation and Firebase budget alerts keep a small app alive."
 date: "May 26 2026"
 tags: ["Firebase", "Python", "Automation", "DevEx"]
-draft: true
+draft: false
 ---
 
 Twenty users is not a lot. It is also twenty real people whose rental contracts, device assignments, and payment records live in the database. When the app goes down, they call.

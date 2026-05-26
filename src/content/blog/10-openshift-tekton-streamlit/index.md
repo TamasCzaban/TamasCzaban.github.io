@@ -3,7 +3,7 @@ title: "Shipping Streamlit on OpenShift: Solo-Owning a 13-Stage Tekton Pipeline"
 summary: "No DevEx team, no sample repo guidance beyond a starter — just a 13-stage Tekton pipeline, Helm chart config, Artifactory publishing, and an 8m15s end-to-end runtime I built and owned solo at Citi."
 date: "May 26 2026"
 tags: ["Kubernetes", "CI/CD", "Streamlit", "Python", "DevEx"]
-draft: true
+draft: false
 ---
 
 The sample repo had a working Dockerfile, a `values.yaml`, and a `dev-values.yaml`. That was it. No DevEx team to call, no internal Slack channel for this specific stack. Just a working local Python app and an OpenShift cluster that needed to run it on every push to main.

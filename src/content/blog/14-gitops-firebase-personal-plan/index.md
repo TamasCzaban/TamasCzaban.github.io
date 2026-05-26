@@ -3,7 +3,7 @@ title: "Three-Environment GitOps on a Firebase Personal Plan"
 summary: "Dev on feature branches, UAT on PRs, prod on main — all with branch protections, Gitleaks on every run, pinned dependency versions, and weekly scheduled CVE scans. No paid plan required."
 date: "May 26 2026"
 tags: ["Firebase", "CI/CD", "Security", "DevEx"]
-draft: true
+draft: false
 ---
 
 The assumption is that real branch protections require a paid plan. For Vital Registry, a production CRM with real customer data, I built three fully isolated environments on a Firebase personal plan. Branch protections, secrets scanning, supply-chain defence, and scheduled CVE scans: all configured as code, none requiring a paid GitHub tier.

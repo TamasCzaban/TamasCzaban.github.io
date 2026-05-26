@@ -3,7 +3,7 @@ title: "15 Hours on a pytest rootdir Bug — and Why I Shipped Anyway"
 summary: "rootdir anchoring, conftest.py placement, six failed approaches, and the pragmatic call to set the test command to 'pass' so 12 remaining pipeline stages — including Snyk and SonarQube — could still run."
 date: "May 26 2026"
 tags: ["Python", "CI/CD", "Testing", "DevEx"]
-draft: true
+draft: false
 ---
 
 The test stage was failing. Not because the tests were wrong — because pytest could not find the modules at all.

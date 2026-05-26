@@ -4,7 +4,7 @@ summary: "A golden-path CI/CD of the mind: grill-me surfaces decisions, Opus sco
 date: "May 26 2026"
 tags: ["DevEx", "AI", "CI/CD", "Automation"]
 demoUrl: "https://www.czaban.dev"
-draft: true
+draft: false
 ---
 
 CZ Dev runs as two engineers — Tamas in Budapest, Zsombor in Finland/Greece. No standup cadence, no blocking sync on requirements, no "can you review this?" over Slack. This pipeline is how features get from idea to merged without either of us waiting on the other.

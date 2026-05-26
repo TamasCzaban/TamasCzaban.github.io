@@ -3,7 +3,7 @@ title: "Finding the Front Door: Teaching Non-Engineers Their First Automation"
 summary: "A Citi cohort had AI tools but no entry point. Socratic sessions from first principles — tokens, models, prompting — and a first project: a Pandas Excel automation replacing a manual weekly report. The blocker is never the tech."
 date: "May 26 2026"
 tags: ["Python", "Automation", "DevEx", "AI"]
-draft: true
+draft: false
 ---
 
 At Citi, several colleagues had access to the internal AI and developer tooling. GitHub Copilot, internal LLM interfaces, the full stack. Nobody had told them they couldn't use it. The problem was they didn't know what to type first.
