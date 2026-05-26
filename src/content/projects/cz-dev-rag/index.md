@@ -1,11 +1,11 @@
 ---
 title: "CZ-Dev-RAG"
-summary: "Local, graph-based knowledge base for a two-person software agency. LightRAG + RAG-Anything on an RTX 3090, Windows-native Ollama, BGE-M3 + Qwen2.5-32B for embeddings and entity extraction, a BGE reranker in the retrieval path, Langfuse for tracing, an MCP server so Claude Code can query the KB as a tool, and Tailscale as the only thing standing between the world and our client contracts. Public code, private data."
+summary: "Local, graph based knowledge base for a two person software agency. LightRAG + RAG Anything on an RTX 3090, Windows-native Ollama, BGE-M3 + Qwen2.5-32B for embeddings and entity extraction, a BGE reranker in the retrieval path, Langfuse for tracing, an MCP server so Claude Code can query the KB as a tool, and Tailscale as the only thing standing between the world and our client contracts. Public code, private data."
 date: "Apr 24 2026"
 draft: false
 tags:
 - LightRAG
-- RAG-Anything
+- RAG Anything
 - Ollama
 - BGE-M3
 - Qwen2.5
@@ -13,7 +13,7 @@ tags:
 - Langfuse
 - Tailscale
 - RAG
-- Self-hosted
+- Self Hosted
 repoUrl: "https://github.com/TamasCzaban/CZ-Dev-RAG"
 ---
 

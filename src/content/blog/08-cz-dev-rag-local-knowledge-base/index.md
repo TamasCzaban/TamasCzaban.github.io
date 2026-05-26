@@ -1,17 +1,17 @@
 ---
-title: "Building a Local RAG Knowledge Base for a Two-Person Agency"
-summary: "We started CZ Dev as a two-person software agency. Three months in we had enough client contracts, SOWs, and meeting notes that 'where did we say that?' became a real question. This is what we built to answer it: LightRAG + RAG-Anything on an RTX 3090, Ollama for the models, MCP for Claude Code integration, Tailscale for sharing, and zero data sent to a third-party AI provider."
+title: "Building a Local RAG Knowledge Base for a Two Person Agency"
+summary: "We started CZ Dev as a two person software agency. Three months in we had enough client contracts, SOWs, and meeting notes that 'where did we say that?' became a real question. This is what we built to answer it: LightRAG + RAG Anything on an RTX 3090, Ollama for the models, MCP for Claude Code integration, Tailscale for sharing, and zero data sent to a third-party AI provider."
 date: "Apr 24 2026"
 draft: false
 tags:
 - LightRAG
-- RAG-Anything
+- RAG Anything
 - Ollama
 - BGE-M3
 - Qwen2.5
 - MCP
 - Tailscale
-- Self-hosted
+- Self Hosted
 - RAG
 ---
 

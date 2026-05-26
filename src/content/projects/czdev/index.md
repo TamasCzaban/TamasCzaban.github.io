@@ -1,15 +1,15 @@
 ---
 title: "CZ Dev: Software Agency (Co-Founder)"
-summary: "Co-founded with my brother Zsombor. Custom software for founders who've outgrown spreadsheets and no-code. Four shipped case studies across production CRM, security tooling, and vulnerability automation. Design-led frontend, Python backend, full-stack delivery."
+summary: "Co-founded with my brother Zsombor. Custom software for founders who've outgrown spreadsheets and no-code. Four shipped case studies across production CRM, security tooling, and vulnerability automation. Design led frontend, Python backend, full stack delivery."
 date: "Mar 01 2026"
 draft: false
 tags:
 - Agency
-- Full-Stack
+- Full Stack
 - React
 - TypeScript
 - Python
-- Design-Led
+- Design Led
 demoUrl: "https://www.czaban.dev"
 repoUrl: "https://github.com/TamasCzaban"
 ---

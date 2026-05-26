@@ -9,7 +9,7 @@ tags:
 - Firebase
 - Stripe
 - CRM
-- Multi-Environment
+- Multi Environment
 demoUrl: "https://vital-registry.com/contracts"
 repoUrl: "https://github.com/TamasCzaban"
 ---

@@ -1,6 +1,6 @@
 ---
-title: "Hunting NaN Embeddings: BGE-M3 on Ollama and the F16 Flash-Attention Trap"
-summary: "Halfway through building CZ-Dev-RAG I hit a bug that took two days and a dozen wrong theories to track down: BGE-M3 returning NaN embeddings to LightRAG, but only during the merging stage, but only on long inputs, and not reproducible from a curl one-liner. The cause turned out to be a quietly-enabled flash-attention path in Ollama that overflows F16 on dense BERT inputs. This covers the debug trail and what fixed it."
+title: "Hunting NaN Embeddings: BGE-M3 on Ollama and the F16 Flash Attention Trap"
+summary: "Halfway through building CZ-Dev-RAG I hit a bug that took two days and a dozen wrong theories to track down: BGE-M3 returning NaN embeddings to LightRAG, but only during the merging stage, but only on long inputs, and not reproducible from a curl one-liner. The cause turned out to be a quietly-enabled flash attention path in Ollama that overflows F16 on dense BERT inputs. This covers the debug trail and what fixed it."
 date: "Apr 24 2026"
 draft: false
 tags:
