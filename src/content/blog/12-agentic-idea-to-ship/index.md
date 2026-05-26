@@ -14,7 +14,7 @@ That was the failure that started the pipeline.
 
 ## The coordination problem
 
-Two engineers, two time zones, one product. The original workflow: identify a task, hop on a call to align, the other builds. The calls weren't long but they were blocking. Sync calls don't produce artefacts. You align, you hang up, the alignment exists only in memory.
+Two engineers across two time zones, one product. The original workflow: identify a task, hop on a call to align, the other builds. The calls weren't long but they were blocking. Sync calls don't produce artefacts. You align, you hang up, and the alignment lives in memory.
 
 The PRD was the first fix: user stories, acceptance criteria, file-level change specs, test requirements. Something either of us, or a Sonnet agent, could pick up cold and execute against.
 
@@ -22,7 +22,7 @@ The PRD was the first fix: user stories, acceptance criteria, file-level change 
 
 The problem with writing a PRD directly is that you write the parts you already understand. The gaps stay gaps and surface as implementation surprises.
 
-`grill-me` is a pre-implementation interviewer. Before any code gets planned, it interrogates scope boundaries, data model decisions, edge cases, interface contracts. Not questions I would think to ask myself, because I'd already implicitly answered them.
+`grill-me` is a pre-implementation interviewer. Before any code gets planned, it interrogates scope boundaries, data model decisions, edge cases, interface contracts. Not questions I would think to ask myself; I'd already answered them without noticing.
 
 The output is a Decision Summary: every unresolved question surfaced, with a recommended position on each. The first few PRDs we wrote without this were incomplete in the same way the old sync calls were: they captured what we had thought through and skipped what we hadn't.
 
@@ -48,13 +48,13 @@ Planning and execution happen in separate context windows. A single agent that p
 
 After execution, an Opus agent reviews the diff in a fresh context against the PRD acceptance criteria. Framing is explicit: find what's wrong, not what's working.
 
-Two fix loops are available. If the reviewer returns findings, the executor addresses them and the reviewer re-checks. Findings remaining after two loops escalate to human review rather than auto-resolving. The review catches what the executor rationalised, and a fresh context reads what's actually there instead of what was meant.
+Two fix loops are available. If the reviewer returns findings, the executor addresses them and the reviewer re-checks. Findings remaining after two loops escalate to human review rather than auto-resolving. The review catches what the executor rationalised, and a fresh context reads what's there instead of what was meant.
 
 ## Stage 6: HIL gate and auto-merge
 
 If review passes, a human-in-the-loop gate triggers before merge. The human's judgment applies to the ship decision, not to cleanup after a bad merge. On approval, the pipeline auto-merges to dev and cleans up the feature branch.
 
-End-to-end: grill-me, PRD, slice issues, GSD execution, adversarial review, HIL gate, merge. Either engineer drives any stage without a sync call. AI drives execution. The human makes the ship decision.
+End-to-end: grill-me, PRD, slice issues, GSD execution, adversarial review, HIL gate, merge. Either engineer drives any stage without a sync call. AI drives execution; the human makes the ship decision.
 
 ## The vocabulary layer
 
