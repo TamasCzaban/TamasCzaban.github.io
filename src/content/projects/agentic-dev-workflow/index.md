@@ -15,15 +15,15 @@ It is not a one-off script. Every stage is a skill file with defined inputs, def
 
 **grill-me** opens every feature. It is a pre-implementation interviewer: it asks about every unresolved architectural decision before any plan is written. Scope, data model, auth, edge cases, failure modes. The output is a Decision Summary — a structured record of what was decided and why. Nothing enters the PRD that wasn't surfaced here.
 
-**Opus PRD writer** takes the Decision Summary and produces a structured Product Requirements Document: user stories, acceptance criteria, file-level change specifications, and test requirements. The PRD is the handoff unit. A human or an AI agent can pick it up cold and know exactly what to build. This is what makes async work possible — the knowledge transfer happens once, in writing, not on a call.
+**Opus PRD writer** takes the Decision Summary and produces a structured Product Requirements Document: user stories, acceptance criteria, file-level change specifications, and test requirements. The PRD is the handoff unit. A human or an AI agent can pick it up cold and know what to build. This is what makes async work possible — the knowledge transfer happens once, in writing, not on a call.
 
-**prd-to-issues** slices the PRD into GitHub issues. Each issue is a vertical slice: one working piece of the product end-to-end per issue. No horizontal layers, no "backend only" issues that block a frontend issue that blocks a test issue. Each slice ships independently or not at all.
+**prd-to-issues** slices the PRD into GitHub issues. Each issue is a vertical slice: one working piece of the product end-to-end per issue. No horizontal layers, no "backend only" issues that block a frontend issue that blocks a test issue. Each slice ships on its own or not at all.
 
 **GSD execution (Sonnet)** picks up a slice issue, reads the corresponding PRD section, writes a PLAN.md, and executes it. Atomic commits, type checks, build verification at each step. Planning and execution run in separate context windows on purpose — the executor cannot revise the plan mid-execution to rationalise what it already did. The plan is fixed before the first file changes.
 
 **Adversarial review (Opus)** opens a fresh context and reads only the diff and the acceptance criteria. It has no memory of what the executor intended. It finds issues the executor missed because it was not there when the decisions were made. Two fix loops maximum. If findings survive two loops, the issue escalates to human review rather than pushing a marginal fix.
 
-**HIL gate** — human reviews the diff and approves or rejects. This is not a rubber stamp. It is the judgment call that no agent should make: whether the implementation is correct for the domain, not just whether it compiles and the tests pass.
+**HIL gate**: human reviews the diff and approves or rejects. The human's judgment covers whether the implementation is correct for the domain, not just whether it compiles and tests pass.
 
 On approval: auto-merge to dev, branch cleanup.
 
