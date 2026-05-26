@@ -6,7 +6,7 @@ tags: ["Firebase", "CI/CD", "Security", "DevEx"]
 draft: true
 ---
 
-The assumption is that real branch protections require a paid plan. For Vital Registry, a production CRM with real customer data, I built three fully isolated environments on a Firebase personal plan. Branch protections, secrets scanning, supply-chain defence, and scheduled CVE scans — all configured as code, none requiring a paid GitHub tier.
+The assumption is that real branch protections require a paid plan. For Vital Registry, a production CRM with real customer data, I built three fully isolated environments on a Firebase personal plan. Branch protections, secrets scanning, supply-chain defence, and scheduled CVE scans: all configured as code, none requiring a paid GitHub tier.
 
 ## Three environments, three promotion gates
 
@@ -32,9 +32,9 @@ The cost is a few seconds per run. The alternative is discovering a committed cr
 
 ## Pinned dependency versions
 
-All package versions are pinned explicitly — no `^` or `~` prefixes. The npm supply-chain incidents of the past few years demonstrated the attack surface: a maintainer account gets compromised, a malicious version is published, and any project with a floating range installs it on the next `npm install`.
+All package versions are pinned: no `^` or `~` prefixes. The npm supply-chain incidents of the past few years demonstrated the attack surface: a maintainer account gets compromised, a malicious version is published, and any project with a floating range installs it on the next `npm install`.
 
-Pinning eliminates that class of attack. The cost is deliberate version bumps — work you should be doing intentionally, not delegating to a range resolver.
+Pinning eliminates that class of attack. The cost is deliberate version bumps, work you should be doing on purpose, not delegating to a range resolver.
 
 ## Weekly scheduled CVE scans
 
@@ -56,4 +56,4 @@ Personal projects are where habits form. The pipeline built for Vital Registry o
 
 ---
 
-This pipeline serves [Vital Registry](/projects/vital-registry-v2/). For production monitoring — quota headroom, weekly active users, and error rate on the same Firebase personal plan — see the companion post on [PostHog and Firebase alerting](/blog/15-posthog-firebase-monitoring/).
+This pipeline serves [Vital Registry](/projects/vital-registry-v2/). For production monitoring (quota headroom, weekly active users, and error rate on the same Firebase personal plan), see the companion post on [PostHog and Firebase alerting](/blog/15-posthog-firebase-monitoring/).
