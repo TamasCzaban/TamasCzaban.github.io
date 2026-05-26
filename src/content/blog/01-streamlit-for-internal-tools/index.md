@@ -17,7 +17,7 @@ My answer was Streamlit.
 
 ## What Streamlit actually is
 
-Streamlit is a Python library that turns a script into an interactive web app. You write Python — the same Pandas, the same logic you'd use in a notebook — and Streamlit handles the UI. Dropdowns, sliders, tables, charts: all declared in a few lines.
+Streamlit is a Python library that turns a script into an interactive web app. You write Python the same Pandas, the same logic you'd use in a notebook and Streamlit handles the UI. Dropdowns, sliders, tables, charts: all declared in a few lines.
 
 ```python
 import streamlit as st
@@ -37,28 +37,28 @@ That's a working filter and chart. In a traditional stack that's a backend route
 
 ## Why it works for internal tools
 
-Internal tools have a different set of constraints to customer-facing products. The users are colleagues — they're forgiving of rough edges, they understand the domain, and they just need the information. What they can't tolerate is waiting six weeks for the IT backlog to clear so someone can run a report for them.
+Internal tools have a different set of constraints to customer-facing products. The users are colleagues they're forgiving of rough edges, they understand the domain, and they just need the information. What they can't tolerate is waiting six weeks for the IT backlog to clear so someone can run a report for them.
 
 Streamlit hits the sweet spot:
 
-- **Fast to build** — a useful prototype in an afternoon, a polished tool in a week
-- **Python all the way down** — no context switch to JavaScript, no API layer to maintain
-- **Runs where Python runs** — local, cloud, internal server
-- **Easy to update** — when the data changes or the team wants a new filter, I change one file
+- **Fast to build** a useful prototype in an afternoon, a polished tool in a week
+- **Python all the way down** no context switch to JavaScript, no API layer to maintain
+- **Runs where Python runs** local, cloud, internal server
+- **Easy to update** when the data changes or the team wants a new filter, I change one file
 
 ## Vital Registry (v1)
 
 The most complex Streamlit app I've built is Vital Registry, a full CRM for BEMER medical device distributors. It manages customer contacts, tracks deals through a sales pipeline, processes payments via Stripe, and syncs everything in real time through Firebase Firestore.
 
-This pushed Streamlit into territory it's not always associated with — persistent state, multi-user access, role-based auth, live data. It works because Streamlit's component model is flexible enough, and because Firebase handles the heavy lifting of real-time sync and authentication.
+This pushed Streamlit into territory it's not always associated with persistent state, multi-user access, role-based auth, live data. It works because Streamlit's component model is flexible enough, and because Firebase handles the heavy lifting of real-time sync and authentication.
 
-That said: Streamlit has limits. It's not the right tool for highly interactive UIs, complex client-side logic, or public-facing consumer products. For internal tooling though — dashboards, data apps, reporting interfaces — it's the fastest path from idea to working software I've found.
+That said: Streamlit has limits. It's not the right tool for highly interactive UIs, complex client-side logic, or public-facing consumer products. For internal tooling though dashboards, data apps, reporting interfaces it's the fastest path from idea to working software I've found.
 
 ## The workflow I've settled on
 
-1. Start with the data — load it, clean it, understand what questions people actually need answered
-2. Build the minimal version — one filter, one chart, one table
-3. Share it early — real users find the gaps faster than I do
-4. Iterate — add filters, improve the layout, connect more data sources
+1. Start with the data load it, clean it, understand what questions people actually need answered
+2. Build the minimal version one filter, one chart, one table
+3. Share it early real users find the gaps faster than I do
+4. Iterate add filters, improve the layout, connect more data sources
 
 The goal is never the tool. The goal is the decision the tool enables. Streamlit just gets out of the way fast enough that I can focus on that.

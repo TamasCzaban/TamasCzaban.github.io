@@ -18,7 +18,7 @@ Two engineers across two time zones, one product. The original workflow: identif
 
 The PRD was the first fix: user stories, acceptance criteria, file-level change specs, test requirements. Something either of us, or a Sonnet agent, could pick up cold and execute against.
 
-## Stage 1: grill-me — surfacing what you don't know you don't know
+## Stage 1: grill-me surfacing what you don't know you don't know
 
 The problem with writing a PRD directly is that you write the parts you already understand. The gaps stay gaps and surface as implementation surprises.
 
@@ -26,25 +26,25 @@ The problem with writing a PRD directly is that you write the parts you already 
 
 The output is a Decision Summary: every unresolved question surfaced, with a recommended position on each. The first few PRDs we wrote without this were incomplete in the same way the old sync calls were: they captured what we had thought through and skipped what we hadn't.
 
-## Stage 2: Opus PRD writer — the handoff unit
+## Stage 2: Opus PRD writer the handoff unit
 
 A Claude Opus agent takes the Decision Summary and produces a structured PRD: user stories, acceptance criteria per story, file-level change specs, test requirements. Calibrated for one purpose: someone who has never seen the feature discussion should be able to implement it correctly from this document alone.
 
 That constraint is the point. If the PRD only works for someone who was in the planning conversation, it's meeting notes, not a handoff unit. Opus handles this stage because the quality of the eventual implementation correlates with the quality of the spec, and Sonnet drifts at this level of structural coherence.
 
-## Stage 3: vertical slice issues — no horizontal layers
+## Stage 3: vertical slice issues no horizontal layers
 
 The PRD gets sliced into GitHub issues, each a vertical slice: complete working functionality touching every layer it needs (data, logic, UI, test). Not "implement the backend for X" and "implement the frontend for X" as separate issues.
 
 Horizontal slices create the coordination trap we started with: "backend done, waiting on frontend" can sit for days. A vertical slice either ships or it doesn't. Progress is binary and always demo-able.
 
-## Stage 4: GSD execution — plan and execute in separate context windows
+## Stage 4: GSD execution plan and execute in separate context windows
 
 GSD (Get Shit Done) drives feature execution. A Sonnet agent picks up a slice issue, reads the PRD, creates a PLAN.md, and executes it: file changes, atomic commits, type checks, build verification.
 
 Planning and execution happen in separate context windows. A single agent that plans and executes in the same context rationalises its own plan: errors compound because it reads what it meant to write, not what it wrote. The executor starts fresh from the written plan and catches gaps the planner glossed over.
 
-## Stage 5: adversarial review — fresh context, hostile framing
+## Stage 5: adversarial review fresh context, hostile framing
 
 After execution, an Opus agent reviews the diff in a fresh context against the PRD acceptance criteria. Framing is explicit: find what's wrong, not what's working.
 

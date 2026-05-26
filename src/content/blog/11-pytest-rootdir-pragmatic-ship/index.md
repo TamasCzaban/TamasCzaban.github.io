@@ -6,7 +6,7 @@ tags: ["Python", "CI/CD", "Testing", "DevEx"]
 draft: false
 ---
 
-The test stage was failing. Not because the tests were wrong — because pytest could not find the modules at all.
+The test stage was failing. Not because the tests were wrong because pytest could not find the modules at all.
 
 The app lived in `/src`. Tests lived in `/tests`. Standard layout. The pipeline ran `pytest` as stage one of a 13-stage Tekton pipeline on OpenShift, and it died with `ModuleNotFoundError` every time. Code that ran fine locally could not import itself inside the container.
 
@@ -36,7 +36,7 @@ My first instinct: `PYTHONPATH` problem. `/src` was not on the Python module sea
 
 **2. `PYTHONPATH=/src` in Helm `values.yaml`.** The pod inherited the variable. pytest still failed.
 
-**3. `python -m pytest` instead of bare `pytest`.** The known workaround — invoking pytest as a module adds the current directory to `sys.path`. It did not help.
+**3. `python -m pytest` instead of bare `pytest`.** The known workaround invoking pytest as a module adds the current directory to `sys.path`. It did not help.
 
 **4. Env vars passed directly to the pod via `kubectl exec`.** Path was present in the environment. pytest still could not resolve the imports.
 
@@ -84,10 +84,10 @@ Snyk catches CVEs before the image ships. SonarQube catches code smells that acc
 At hour 15, with no remaining untried approaches, I set the test command in `pipeline.yaml` to `pass`. The stage would succeed. The remaining 12 stages could run.
 
 ```yaml
-# pipeline.yaml — temporary
+# pipeline.yaml temporary
 - name: python-build
   script: |
-    pass  # TODO: pytest rootdir anchoring — see docs/tech-debt.md
+    pass  # TODO: pytest rootdir anchoring see docs/tech-debt.md
 ```
 
 I documented the debt that session: symptom, approaches tried, the real fix, a link to the pytest docs. The pipeline shipped. Snyk ran. SonarQube ran. The container was built and deployed.
@@ -98,7 +98,7 @@ A test stage that fails because of import configuration, not test failures, is n
 
 Holding the pipeline for a `pass` command was the wrong tradeoff. The Snyk scan was more immediately valuable than a test stage that had never executed a single assertion.
 
-This is a kind of decision every engineer makes and almost no one writes about. The 15 hours are not a failure to hide — they are how the mechanism becomes clear enough to explain. When this comes up again on any project, the fix takes five minutes.
+This is a kind of decision every engineer makes and almost no one writes about. The 15 hours are not a failure to hide they are how the mechanism becomes clear enough to explain. When this comes up again on any project, the fix takes five minutes.
 
 ---
 

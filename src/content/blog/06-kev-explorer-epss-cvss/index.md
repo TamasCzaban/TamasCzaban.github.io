@@ -19,8 +19,8 @@ A CVSS score on its own is a bad triage signal. Every vulnerability management t
 
 The industry has produced two complementary datasets to fix this, both public, both free:
 
-- **CISA KEV** — the Known Exploited Vulnerabilities catalogue. A CVE is on this list if and only if CISA has evidence of active exploitation. It's a retrospective, authoritative signal. If it's on KEV, someone has been exploited by it.
-- **EPSS** — the Exploit Prediction Scoring System from FIRST.org. A daily-updated probability (0 to 1) that each published CVE will be exploited in the next 30 days. It's forward-looking and probabilistic, built on machine learning over public exploit signals.
+- **CISA KEV** the Known Exploited Vulnerabilities catalogue. A CVE is on this list if and only if CISA has evidence of active exploitation. It's a retrospective, authoritative signal. If it's on KEV, someone has been exploited by it.
+- **EPSS** the Exploit Prediction Scoring System from FIRST.org. A daily-updated probability (0 to 1) that each published CVE will be exploited in the next 30 days. It's forward-looking and probabilistic, built on machine learning over public exploit signals.
 
 Together they give you a much sharper triage view than CVSS alone. KEV says "this one is real". EPSS says "these are the ones likely to become real". CVSS says "if it goes wrong, here's how bad it is". All three are useful. None is sufficient on its own.
 
@@ -34,7 +34,7 @@ Two datasets, two refresh cadences, two formats.
 
 **KEV** is a ~1.5 MB JSON file at `cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json`. It updates whenever CISA adds an entry, typically a few times per week. Currently 1,559 entries. Each entry has the CVE ID, vendor, product, dates, ransomware association flag, and a required-action field.
 
-**EPSS** is a ~3 MB gzip-compressed CSV at `epss.cyentia.com/epss_scores-current.csv.gz`. It updates daily with fresh model scores for every published CVE — around 250,000 rows. Each row is `cve, epss, percentile`.
+**EPSS** is a ~3 MB gzip-compressed CSV at `epss.cyentia.com/epss_scores-current.csv.gz`. It updates daily with fresh model scores for every published CVE around 250,000 rows. Each row is `cve, epss, percentile`.
 
 The join is trivial: match on `cveID`. The complication is where to do it. Options:
 
@@ -103,7 +103,7 @@ async function main() {
 }
 ```
 
-`pako.inflate` handles the gzip decompression in Node. The CSV parse is deliberately naive — a CSV library would be overkill for a file whose format has been stable for years. The output gets stuffed into `public/data/kev.json` as a single file with a `fetchedAt` header so the UI can render "data as of" next to the KPIs.
+`pako.inflate` handles the gzip decompression in Node. The CSV parse is deliberately naive a CSV library would be overkill for a file whose format has been stable for years. The output gets stuffed into `public/data/kev.json` as a single file with a `fetchedAt` header so the UI can render "data as of" next to the KPIs.
 
 On the latest run, 1,559 out of 1,559 KEV entries found an EPSS match. 100%. EPSS publishes scores for every NVD-assigned CVE, so unless a KEV entry references a reserved-but-not-published CVE, you get full coverage.
 
@@ -147,11 +147,11 @@ jobs:
 
 The join makes a specific visualisation possible that neither dataset supports on its own: the EPSS × days-overdue scatter plot.
 
-Every KEV entry has a `dueDate` — the date by which federal agencies are expected to have patched. Subtract today from that date and you get a "days overdue" number (negative means "due in the future", positive means "already past due"). Pair that with the EPSS score on the other axis and you get a view that says, for every active KEV, "how likely is this to be exploited *and* how long have we been sitting on it?"
+Every KEV entry has a `dueDate` the date by which federal agencies are expected to have patched. Subtract today from that date and you get a "days overdue" number (negative means "due in the future", positive means "already past due"). Pair that with the EPSS score on the other axis and you get a view that says, for every active KEV, "how likely is this to be exploited *and* how long have we been sitting on it?"
 
-The top-right quadrant — high EPSS, high days-overdue — is the panic list. These are vulnerabilities known to be exploited, predicted by the model to continue being exploited, and past the deadline for remediation. That quadrant is highlighted with a soft coloured background region so the eye goes straight to it.
+The top-right quadrant high EPSS, high days-overdue is the panic list. These are vulnerabilities known to be exploited, predicted by the model to continue being exploited, and past the deadline for remediation. That quadrant is highlighted with a soft coloured background region so the eye goes straight to it.
 
-Points are coloured by ransomware association — entries CISA has flagged as tied to ransomware campaigns are rendered differently, because a ransomware-associated KEV is a different threat model than a "generic" exploited CVE.
+Points are coloured by ransomware association entries CISA has flagged as tied to ransomware campaigns are rendered differently, because a ransomware-associated KEV is a different threat model than a "generic" exploited CVE.
 
 Recharts makes this straightforward. A `<ScatterChart>` with two `<ZAxis>` controls (one for size by `epssPercentile`, one for colour by ransomware) and a `<ReferenceArea>` for the high-risk quadrant. The data preparation is a single `.map()` off the filtered dataset:
 
@@ -174,7 +174,7 @@ The dashboard has no accounts, no saved views, no bookmarks UI. Instead, every f
 ?vendors=Microsoft,Apple&overdue=1&epssMin=0.5&search=spring
 ```
 
-On mount, the filter state initialises from the query string. On every change, the query string is updated via `history.replaceState` (not `pushState` — we don't want every slider tick to add a browser history entry).
+On mount, the filter state initialises from the query string. On every change, the query string is updated via `history.replaceState` (not `pushState` we don't want every slider tick to add a browser history entry).
 
 Sharing a filtered view is copy-paste the URL. The person who opens it sees exactly the same filters applied, and their dashboard is also filter-aware and shareable. It's the primitive version of saved views, and it does about 95% of the job without a backend or a user model.
 
@@ -182,15 +182,15 @@ The other thing this gets you is reproducibility in bug reports. "Look at the sc
 
 ## Things I would do differently
 
-**A filter-aware delta KPI.** I deliberately left this out because the KEV dataset doesn't have a natural "prior week" comparison built in (the data is cumulative, not snapshot-based). But it would be possible to add a second dataset in the ETL — yesterday's KEV snapshot archived on each run — and compute a filter-aware week-over-week change in the "Additions over time" chart. The rolling-8-day Parquet trick from [my previous post](/blog/05-two-tier-parquet-caching/) applies directly here.
+**A filter-aware delta KPI.** I deliberately left this out because the KEV dataset doesn't have a natural "prior week" comparison built in (the data is cumulative, not snapshot-based). But it would be possible to add a second dataset in the ETL yesterday's KEV snapshot archived on each run and compute a filter-aware week-over-week change in the "Additions over time" chart. The rolling-8-day Parquet trick from [my previous post](/blog/05-two-tier-parquet-caching/) applies directly here.
 
-**NVD enrichment at build time rather than lazily.** Right now CVSS scores come from the NVD API when the user opens the drill-down panel. Doing that in the ETL would let the scatter plot use real CVSS on the x-axis instead of days-overdue, and the table could sort by CVSS without a separate fetch. The tradeoff is NVD rate limits — even with an API key, enriching 1,500 CVEs takes a few minutes, and doing it nightly adds Actions runtime. A weekly full-enrichment with a daily incremental pass would be the right compromise.
+**NVD enrichment at build time rather than lazily.** Right now CVSS scores come from the NVD API when the user opens the drill-down panel. Doing that in the ETL would let the scatter plot use real CVSS on the x-axis instead of days-overdue, and the table could sort by CVSS without a separate fetch. The tradeoff is NVD rate limits even with an API key, enriching 1,500 CVEs takes a few minutes, and doing it nightly adds Actions runtime. A weekly full-enrichment with a daily incremental pass would be the right compromise.
 
-**A DuckDB-wasm layer for client-side SQL.** At 1,559 rows the dataset is small enough that `.filter()` on the array is instant. If the dataset grew (e.g. joining with the full 250,000-row EPSS table for historical lookback) DuckDB-wasm would be the interesting option — ship a Parquet file, query it with real SQL in the browser. That's a portfolio project of its own.
+**A DuckDB-wasm layer for client-side SQL.** At 1,559 rows the dataset is small enough that `.filter()` on the array is instant. If the dataset grew (e.g. joining with the full 250,000-row EPSS table for historical lookback) DuckDB-wasm would be the interesting option ship a Parquet file, query it with real SQL in the browser. That's a portfolio project of its own.
 
 ## What this demonstrates
 
-This is about as simple as a "real" project gets: two public datasets, one join, one static site, one GitHub Action. The interesting content is the domain knowledge — understanding *why* EPSS and KEV belong together, *what* quadrant of the scatter matters, *how* to frame the filter state so people can share specific views.
+This is about as simple as a "real" project gets: two public datasets, one join, one static site, one GitHub Action. The interesting content is the domain knowledge understanding *why* EPSS and KEV belong together, *what* quadrant of the scatter matters, *how* to frame the filter state so people can share specific views.
 
 The technical stack is deliberately unflashy. React, TypeScript, Vite, Recharts, Tailwind. One Node script. One GitHub Actions workflow. No backend, no database, no auth. The production system fits on a single screen of code for every piece.
 

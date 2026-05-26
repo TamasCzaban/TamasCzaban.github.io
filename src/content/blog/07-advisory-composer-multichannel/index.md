@@ -15,7 +15,7 @@ tags:
 
 Every vulnerability scan produces the same shape of output and every vulnerability response produces the same shape of communication. On one side: a list of advisories keyed by package, version, severity, and references. On the other side: an email to the owner, a Slack message to the team, a comment on the pull request that bumps the dependency, a row in the incident spreadsheet.
 
-The data in each output is the same. The formatting is completely different. And the time it takes to manually convert between them is real — enough that at my day job I'd watched teammates spend half a day on an L0 incident just re-typing the same advisory four ways for four audiences.
+The data in each output is the same. The formatting is completely different. And the time it takes to manually convert between them is real enough that at my day job I'd watched teammates spend half a day on an L0 incident just re-typing the same advisory four ways for four audiences.
 
 The right response is a tool that takes the scan output once and emits all four formats in a single pass. Advisory Composer is that tool, built as a pure browser app: no backend, no accounts, no server-side state. Paste a lockfile, click scan, walk away with four downloadable outputs.
 
@@ -27,7 +27,7 @@ Everything happens in the browser. No step requires a server. The whole tool is 
 
 ## Why pure client-side
 
-The original inspiration is an internal tool I'd written in Streamlit that hooked directly into Outlook via `win32com.client` to push per-recipient drafts with custom filtered attachments. That worked because it ran on a Windows workstation inside an enterprise that allowed COM interop. For a public portfolio project, that's not an option — and trying to replicate "send an email directly from the tool" in a browser is a well-known dead end (the browser cannot speak SMTP directly, and proxying through an API requires a server and a sender domain).
+The original inspiration is an internal tool I'd written in Streamlit that hooked directly into Outlook via `win32com.client` to push per-recipient drafts with custom filtered attachments. That worked because it ran on a Windows workstation inside an enterprise that allowed COM interop. For a public portfolio project, that's not an option and trying to replicate "send an email directly from the tool" in a browser is a well-known dead end (the browser cannot speak SMTP directly, and proxying through an API requires a server and a sender domain).
 
 So the design inverted: instead of *sending*, the tool *generates downloadable files*. An `.eml` you drag into Outlook. A Slack JSON you paste into Block Kit Builder. A markdown comment you paste into a PR. A CSV you save to disk. The tool never holds credentials, never talks to your email server, never needs a backend.
 
@@ -69,7 +69,7 @@ Two dependency syntaxes coexist in Cargo: `package = "1.2.3"` and `package = { v
 
 The modern pattern for dependency manifests at enterprise scale is the Software Bill of Materials, usually in CycloneDX JSON format. The `components` array has every package with a `purl` (Package URL) that encodes the ecosystem. `pkg:npm/lodash@4.17.11` → npm / lodash / 4.17.11. A small `purl` splitter handles the prefixes and strips any `@` version suffix for the version field.
 
-All six parsers dispatch through a single `parseManifest(content, filename)` function that sniffs the format from the filename or — for pasted content without a filename — from the first few characters (`{` with `"name"` key → package.json; `[` or `<?xml` → SBOM variants; `module` keyword → go.mod).
+All six parsers dispatch through a single `parseManifest(content, filename)` function that sniffs the format from the filename or for pasted content without a filename from the first few characters (`{` with `"name"` key → package.json; `[` or `<?xml` → SBOM variants; `module` keyword → go.mod).
 
 ## OSV as the single scanner backend
 
@@ -134,7 +134,7 @@ async function getEpss(cveId: string): Promise<number | null> {
 }
 ```
 
-And the batch of lookups runs with controlled concurrency — 10 simultaneous requests rather than all at once — to be polite to the API:
+And the batch of lookups runs with controlled concurrency 10 simultaneous requests rather than all at once to be polite to the API:
 
 ```typescript
 async function enrichAll(vulns: Vulnerability[]): Promise<Vulnerability[]> {
@@ -159,14 +159,14 @@ A 50-vulnerability scan takes a few seconds end-to-end: OSV in one round trip, E
 
 Same input, four outputs. Each generator is a pure function from `(config, vulnerabilities) → string`.
 
-### Email — `.eml` with CSV attachment
+### Email `.eml` with CSV attachment
 
 The `.eml` file is RFC 2822 MIME-multipart. No library needed:
 
 ```
 From: Security Team <security@example.com>
 To: Backend Team <owner@example.com>
-Subject: [DRAFT - DO NOT SEND] Security Advisory — 12 vulnerabilities
+Subject: [DRAFT - DO NOT SEND] Security Advisory 12 vulnerabilities
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="bnd"
 X-Priority: 1
@@ -190,9 +190,9 @@ UGFja2FnZSxWZXJzaW9uLFNldmVyaXR5LEVQU1MsQ1ZFCg...
 --bnd--
 ```
 
-The tricky parts are remembering to base64-encode the attachment, setting the boundaries correctly (they must not appear in the content, so they're generated with a random suffix), and including the blank line between the header and body per spec. The generator tests this by saving a sample output and opening it in Outlook, Apple Mail, and Thunderbird — all three render the HTML body, show the attachment, and let you edit the subject or recipient before sending.
+The tricky parts are remembering to base64-encode the attachment, setting the boundaries correctly (they must not appear in the content, so they're generated with a random suffix), and including the blank line between the header and body per spec. The generator tests this by saving a sample output and opening it in Outlook, Apple Mail, and Thunderbird all three render the HTML body, show the attachment, and let you edit the subject or recipient before sending.
 
-### Slack — Block Kit JSON
+### Slack Block Kit JSON
 
 Slack's Block Kit is a declarative JSON format. The generator produces a header block, a context line with the scan summary, a divider per severity group, and a section block per vulnerability with fields for package / version / advisory ID / EPSS:
 
@@ -220,7 +220,7 @@ Slack's Block Kit is a declarative JSON format. The generator produces a header 
 
 Output pastes straight into Slack's [Block Kit Builder](https://app.slack.com/block-kit-builder) for preview, or into any Slack webhook payload.
 
-### PR comment — Markdown
+### PR comment Markdown
 
 Grouped tables under severity headings, with a collapsible `<details>` section per advisory for the full summary:
 
@@ -236,7 +236,7 @@ Grouped tables under severity headings, with a collapsible `<details>` section p
 | lodash | 4.17.11 | [GHSA-35jh-r3h4-6jhm](https://github.com/advisories/GHSA-35jh-r3h4-6jhm) | 94.2% |
 
 <details>
-<summary>GHSA-35jh-r3h4-6jhm — Command Injection in lodash</summary>
+<summary>GHSA-35jh-r3h4-6jhm Command Injection in lodash</summary>
 
 Versions of `lodash` prior to 4.17.12 are vulnerable to command injection...
 
@@ -245,7 +245,7 @@ Versions of `lodash` prior to 4.17.12 are vulnerable to command injection...
 
 GitHub renders this cleanly in PR comments with the collapsible details block folded by default. You get a compact top-level view with drill-down on request.
 
-### CSV — flat audit export
+### CSV flat audit export
 
 One row per advisory, columns: `Package,Version,Ecosystem,AdvisoryID,Severity,EPSS,Summary,URL`. Fields containing commas or quotes are wrapped and escaped per RFC 4180. Opens in Excel, Google Sheets, Numbers, or any CSV-aware tool without further processing.
 
@@ -267,13 +267,13 @@ type AppState = {
 
 Each step is a separate component that reads the parts of state it needs and dispatches actions to advance. Step 3 regenerates the outputs on every config change, but only for the selected channels, so the live preview updates without redundant work.
 
-The wizard structure also forces a clean recovery path. If OSV is down, Step 2 shows the error and offers retry. If the lockfile is malformed, Step 1 shows the parse error and highlights the problem line. You never get stuck in a half-configured state because there is no half-configured state — each step has a clean enter/exit boundary.
+The wizard structure also forces a clean recovery path. If OSV is down, Step 2 shows the error and offers retry. If the lockfile is malformed, Step 1 shows the parse error and highlights the problem line. You never get stuck in a half-configured state because there is no half-configured state each step has a clean enter/exit boundary.
 
 ## Why this is a better shape than "send from the tool"
 
 The original day-job inspiration sent mail directly through Outlook. That's faster for the end user in the best case, but it bakes in assumptions about the runtime environment (Windows + Outlook), requires write access to the sender's mailbox (mistakes become noise in sent-items), and makes the tool a security-sensitive artefact (whoever runs it has an authenticated send capability).
 
-Advisory Composer's "generate files, don't send" approach is slower by one human step — the user has to click the `.eml` to open it in their mail client and hit send — but it gains portability (works on any OS with any mail client), reversibility (drafts sit in the user's drafts folder until they decide), and separation of concerns (the tool generates, the user approves and dispatches).
+Advisory Composer's "generate files, don't send" approach is slower by one human step the user has to click the `.eml` to open it in their mail client and hit send but it gains portability (works on any OS with any mail client), reversibility (drafts sit in the user's drafts folder until they decide), and separation of concerns (the tool generates, the user approves and dispatches).
 
 The draft-mode toggle is a nod to the same principle: every generated output has `[DRAFT - DO NOT SEND]` prefixed to the subject by default, and turning that off is an explicit action. The tool treats the user's send button with respect.
 
@@ -281,16 +281,16 @@ The draft-mode toggle is a nod to the same principle: every generated output has
 
 A couple of things I'd like to add:
 
-**GitHub Advisory GraphQL integration** — OSV has broad coverage but the GitHub Advisory database has richer metadata for GitHub-hosted ecosystems. A user-supplied PAT (optional, client-side only) would unlock deeper advisory information for npm, PyPI, rubygems, and crates.io packages.
+**GitHub Advisory GraphQL integration** OSV has broad coverage but the GitHub Advisory database has richer metadata for GitHub-hosted ecosystems. A user-supplied PAT (optional, client-side only) would unlock deeper advisory information for npm, PyPI, rubygems, and crates.io packages.
 
-**Team-mapping input** — instead of one output per channel, a CSV of "package → owner team" could split the scan into per-owner outputs automatically. This is the piece closest to the original Outlook tool: one upload, N emails, each one pre-addressed to the right owner with only their affected packages.
+**Team-mapping input** instead of one output per channel, a CSV of "package → owner team" could split the scan into per-owner outputs automatically. This is the piece closest to the original Outlook tool: one upload, N emails, each one pre-addressed to the right owner with only their affected packages.
 
-**Scheduled scans via the user's own GitHub Actions** — Advisory Composer is ephemeral, but the generated outputs and the OSV queries underneath could become a reusable Action that runs on every push to a lockfile and comments on the PR automatically. The generator library would move into an npm package; the UI would stay for interactive use.
+**Scheduled scans via the user's own GitHub Actions** Advisory Composer is ephemeral, but the generated outputs and the OSV queries underneath could become a reusable Action that runs on every push to a lockfile and comments on the PR automatically. The generator library would move into an npm package; the UI would stay for interactive use.
 
 ## What this demonstrates
 
 Advisory Composer is deliberately boring in its engineering choices. Six regex-based parsers. One batched API. One EPSS fetch loop. Four string-returning generator functions. No backend, no dependencies beyond React itself. The whole app is under 1000 lines of TypeScript.
 
-The interesting part is the *shape* — the decision to generate four outputs from one input in one pass, rather than picking a single channel or forcing the user to configure channels per-scan. That shape is the product. The engineering is whatever it takes to make the shape feel natural.
+The interesting part is the *shape* the decision to generate four outputs from one input in one pass, rather than picking a single channel or forcing the user to configure channels per-scan. That shape is the product. The engineering is whatever it takes to make the shape feel natural.
 
 The live tool is at [tamasczaban.github.io/advisory-composer](https://tamasczaban.github.io/advisory-composer/). The source is [github.com/TamasCzaban/advisory-composer](https://github.com/TamasCzaban/advisory-composer).

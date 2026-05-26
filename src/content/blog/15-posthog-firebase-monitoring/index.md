@@ -8,7 +8,7 @@ draft: false
 
 Twenty users is not a lot. It is also twenty real people whose rental contracts, device assignments, and payment records live in the database. When the app goes down, they call.
 
-[Vital Registry](/projects/vital-registry-v2/) runs on Firebase Spark plan — the free tier. The Spark plan is generous for a 20-user CRM. It is also unforgiving: when you hit a hard quota limit on cloud function invocations, Firestore reads, or CPU minutes, the app does not throttle. It stops, for the rest of the billing cycle. No burst allowance, no grace window. The quota resets next month.
+[Vital Registry](/projects/vital-registry-v2/) runs on Firebase Spark plan the free tier. The Spark plan is generous for a 20-user CRM. It is also unforgiving: when you hit a hard quota limit on cloud function invocations, Firestore reads, or CPU minutes, the app does not throttle. It stops, for the rest of the billing cycle. No burst allowance, no grace window. The quota resets next month.
 
 That constraint reshaped how I think about observability. The goal is not a rich dashboard. The goal is to know three numbers before your users notice anything wrong.
 
@@ -16,7 +16,7 @@ That constraint reshaped how I think about observability. The goal is not a rich
 
 **Quota headroom** is the distance between current usage and the limit that kills the app. I configured Firebase budget alerts at thresholds below each hard limit: not at 90%, but earlier, at a point where there is still time to investigate. The alerts fire to email. They are not informational; they are a signal to act before the billing cycle ends.
 
-**Weekly active users** is the retention signal. For 20 users, WAU does not need statistical significance — it needs to be visible. PostHog tracks this through event instrumentation on the key actions: device check-out, rental contract creation, payment recording. These are not vanity pageview events. They are the actions that confirm the app is being used for its purpose. If WAU drops from 18 to 11 week-over-week, that is a retention problem before any user has said a word.
+**Weekly active users** is the retention signal. For 20 users, WAU does not need statistical significance it needs to be visible. PostHog tracks this through event instrumentation on the key actions: device check-out, rental contract creation, payment recording. These are not vanity pageview events. They are the actions that confirm the app is being used for its purpose. If WAU drops from 18 to 11 week-over-week, that is a retention problem before any user has said a word.
 
 **Error rate** is the reliability signal. Unhandled exceptions in cloud functions disappear undetected unless you capture them. I instrument uncaught exceptions from cloud functions as PostHog events with the function name and error type as properties. A spike in error rate on the contract-creation function before a spike in user complaints is the gap observability is supposed to close.
 
@@ -26,7 +26,7 @@ Spark plan imposes a useful constraint: every Firestore read and function call c
 
 ## PostHog setup
 
-PostHog's free tier covers this. The React frontend initialises the client and captures events on meaningful actions: `posthog.capture('contract_created', { user_id: uid, device_id: id })`. I do not instrument every click — only the actions that represent genuine engagement with the core product. The PostHog dashboard has one insight: a WAU trend over 90 days. That is the full workflow. No funnels, no cohorts — the user base is too small for those to be meaningful.
+PostHog's free tier covers this. The React frontend initialises the client and captures events on meaningful actions: `posthog.capture('contract_created', { user_id: uid, device_id: id })`. I do not instrument every click only the actions that represent genuine engagement with the core product. The PostHog dashboard has one insight: a WAU trend over 90 days. That is the full workflow. No funnels, no cohorts the user base is too small for those to be meaningful.
 
 ## Firebase budget alerts
 

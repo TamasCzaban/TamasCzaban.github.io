@@ -15,9 +15,9 @@ tags:
 - RAG
 ---
 
-CZ Dev is the software agency I co-founded with my brother Zsombor. He's in Greece doing the React and TypeScript side, I'm in Budapest doing Python, data, and security. Three months in, we had enough client material — contracts, SOWs, meeting notes, internal pricing docs, an MSA template — that "where did we agree that with BEMER?" had become a recurring question with a slow answer (open Drive, search, find a near-match, open three docs to confirm). The fix is RAG. The interesting part is how we built it.
+CZ Dev is the software agency I co-founded with my brother Zsombor. He's in Greece doing the React and TypeScript side, I'm in Budapest doing Python, data, and security. Three months in, we had enough client material contracts, SOWs, meeting notes, internal pricing docs, an MSA template that "where did we agree that with BEMER?" had become a recurring question with a slow answer (open Drive, search, find a near-match, open three docs to confirm). The fix is RAG. The interesting part is how we built it.
 
-This post is the "why" companion to the [CZ-Dev-RAG project page](/projects/cz-dev-rag) — what shape we wanted, the choices we made and rejected, and the things that were harder than expected.
+This post is the "why" companion to the [CZ-Dev-RAG project page](/projects/cz-dev-rag) what shape we wanted, the choices we made and rejected, and the things that were harder than expected.
 
 ## What we wanted
 
@@ -35,7 +35,7 @@ These constraints picked the stack for us, mostly.
 
 Plain vector RAG (Chroma + a reranker) handles "find the chunk that answers this question" well and "synthesize across three contracts" badly. Microsoft GraphRAG handles cross-document well and is heavier than what a two-person agency needs. LlamaIndex graph mode is configurable but requires more glue.
 
-[LightRAG](https://github.com/HKUDS/LightRAG) lands between them: dual-level (low + high) graph-augmented retrieval, batteries included, actively maintained, with a built-in web UI that ships with `lightrag-hku[api]`. [RAG-Anything](https://github.com/HKUDS/RAG-Anything) wraps it with multimodal ingestion (PDFs with tables and figures, DOCX, images via OCR) — necessary because contracts are PDFs and SOWs occasionally have screenshots embedded.
+[LightRAG](https://github.com/HKUDS/LightRAG) lands between them: dual-level (low + high) graph-augmented retrieval, batteries included, actively maintained, with a built-in web UI that ships with `lightrag-hku[api]`. [RAG-Anything](https://github.com/HKUDS/RAG-Anything) wraps it with multimodal ingestion (PDFs with tables and figures, DOCX, images via OCR) necessary because contracts are PDFs and SOWs occasionally have screenshots embedded.
 
 The framework choice cost is that ingestion is expensive. LightRAG runs an entity-extraction LLM call per chunk, then a relation-extraction call. Plain vector RAG only embeds. For a graph that does the cross-document reasoning we need, this is fine. For a corpus where you only want "find the chunk", LightRAG is overkill.
 
@@ -43,11 +43,11 @@ The framework choice cost is that ingestion is expensive. LightRAG runs an entit
 
 The 3090 has 24 GB. Three things need to fit: the embedding model, the extraction/generation LLM, and the reranker.
 
-**Embedding: BGE-M3.** 568M parameters, MTEB 63.0, 8K context, multilingual. Our corpus is bilingual (English + some Hungarian for the BEMER contract pieces and our own internal notes), and BGE-M3 handles both well. Alternatives — Nomic Embed Text v2 (English-strong but weaker on Hungarian), Qwen3-Embedding-8B (heavier, would compete with the LLM for VRAM), Arctic-Embed-L (English only) — all lost on either multilingual coverage or VRAM budget.
+**Embedding: BGE-M3.** 568M parameters, MTEB 63.0, 8K context, multilingual. Our corpus is bilingual (English + some Hungarian for the BEMER contract pieces and our own internal notes), and BGE-M3 handles both well. Alternatives Nomic Embed Text v2 (English-strong but weaker on Hungarian), Qwen3-Embedding-8B (heavier, would compete with the LLM for VRAM), Arctic-Embed-L (English only) all lost on either multilingual coverage or VRAM budget.
 
-**LLM: Qwen2.5-32B-Instruct, Q4_K_M quantization, via Ollama.** This was the hardest call. LightRAG's graph quality is the LLM's quality — the entities and relations it extracts during ingestion *are* the graph. Sub-14B models produce inconsistent entity names (the same company shows up as three different nodes), brittle relation triples, and a graph that doesn't actually help at query time.
+**LLM: Qwen2.5-32B-Instruct, Q4_K_M quantization, via Ollama.** This was the hardest call. LightRAG's graph quality is the LLM's quality the entities and relations it extracts during ingestion *are* the graph. Sub-14B models produce inconsistent entity names (the same company shows up as three different nodes), brittle relation triples, and a graph that doesn't actually help at query time.
 
-I tested 14B briefly. Confirmed the entity brittleness reports from LightRAG users. Moved up to Qwen2.5-32B at Q4_K_M (~18 GB on disk, ~18 GB in VRAM at runtime). Throughput is ~20 tok/sec on the 3090, which means a 500-PDF dense corpus takes around 6 hours to ingest. That's acceptable — ingestion is a one-time-per-document cost.
+I tested 14B briefly. Confirmed the entity brittleness reports from LightRAG users. Moved up to Qwen2.5-32B at Q4_K_M (~18 GB on disk, ~18 GB in VRAM at runtime). Throughput is ~20 tok/sec on the 3090, which means a 500-PDF dense corpus takes around 6 hours to ingest. That's acceptable ingestion is a one-time-per-document cost.
 
 Mixtral-8x7B and Llama-3.3-70B were considered. Mixtral runs slower than Qwen-32B dense on a 3090. Llama-3.3-70B doesn't fit, even at Q4. Cloud APIs would have been faster but conflicted with the "local-only" constraint.
 
@@ -57,7 +57,7 @@ That's the model fleet: BGE-M3 + Qwen2.5-32B + BGE-reranker-v2-m3, all on the sa
 
 ## Why Tailscale is the only auth layer
 
-Two users, both with Tailscale on every device they own. Adding application-level auth (Cognito, Clerk, an API key middleware) for two people is over-engineering — and would add a thing to maintain that doesn't increase actual security.
+Two users, both with Tailscale on every device they own. Adding application-level auth (Cognito, Clerk, an API key middleware) for two people is over-engineering and would add a thing to maintain that doesn't increase actual security.
 
 The reasoning: the LightRAG port (9621) is bound to `0.0.0.0` on the host, but the Windows firewall and Tailscale ACLs only allow access from devices in our two-person tailnet. From the public internet, the port doesn't exist. From inside Tailscale, it's reachable but only by the device IDs in the ACL.
 
@@ -69,9 +69,9 @@ A future client-facing version of this would obviously need real auth. That's a 
 
 The 3090 lives in my main Windows 11 box because that's the box I work on every day. Three options for running the AI stack on it:
 
-1. **Dual-boot Ubuntu** — too much friction. Switching OS for KB queries kills the "use it daily" requirement.
-2. **WSL2 with GPU passthrough** — works for Linux Ollama, but the recruiter install path is "install WSL, install distro, configure GPU passthrough, then everything else" which is a long quickstart.
-3. **Native Windows Ollama, everything else in Docker Desktop** — Ollama for Windows uses the 3090 directly via CUDA. Containers reach Ollama at `host.docker.internal:11434`. Docker Desktop is one install. The README quickstart is "install Ollama for Windows, install Docker Desktop, clone the repo, `docker compose up`."
+1. **Dual-boot Ubuntu** too much friction. Switching OS for KB queries kills the "use it daily" requirement.
+2. **WSL2 with GPU passthrough** works for Linux Ollama, but the recruiter install path is "install WSL, install distro, configure GPU passthrough, then everything else" which is a long quickstart.
+3. **Native Windows Ollama, everything else in Docker Desktop** Ollama for Windows uses the 3090 directly via CUDA. Containers reach Ollama at `host.docker.internal:11434`. Docker Desktop is one install. The README quickstart is "install Ollama for Windows, install Docker Desktop, clone the repo, `docker compose up`."
 
 We picked option 3. The cost is that MinerU (the document parser) doesn't have a clean Windows GPU path, so MinerU runs on CPU in v1. Ingestion is slower than it could be. WSL2-MinerU-GPU is a roadmap item triggered if ingestion time becomes painful.
 
@@ -110,7 +110,7 @@ Two things every RAG project should have from day one and almost no portfolio pr
 
 **Evals.** Ragas with a 20-question gold set, hand-written to cover contract lookups, cross-document reasoning, narrative summary, multilingual queries, and date arithmetic. Runs against all four LightRAG retrieval modes (`naive`, `local`, `global`, `hybrid`) so we can see which mode wins on which question type. Results auto-populate the README's eval table via a `--output-readme` flag on the eval script. Without this it's just vibes.
 
-The first baseline run gave us hybrid mode at faithfulness 1.000, answer relevancy 0.861, context precision 1.000, with the other three modes clustered within 0.04 of those numbers — tight enough to confirm the graph is healthy across retrieval strategies. Worth knowing: LightRAG's `kv_store_llm_response_cache.json` makes rerunning the eval almost free. First run ~30 minutes; subsequent runs complete each query phase in 5-9 seconds because the LLM responses are cached on the question text. Only the Ragas scoring pass (against a smaller 7B judge model) has to run live. That cache is what turns "eval harness" from a thing you build and never run again into a thing you actually use during prompt-template tuning.
+The first baseline run gave us hybrid mode at faithfulness 1.000, answer relevancy 0.861, context precision 1.000, with the other three modes clustered within 0.04 of those numbers tight enough to confirm the graph is healthy across retrieval strategies. Worth knowing: LightRAG's `kv_store_llm_response_cache.json` makes rerunning the eval almost free. First run ~30 minutes; subsequent runs complete each query phase in 5-9 seconds because the LLM responses are cached on the question text. Only the Ragas scoring pass (against a smaller 7B judge model) has to run live. That cache is what turns "eval harness" from a thing you build and never run again into a thing you actually use during prompt-template tuning.
 
 **Tracing.** Self-hosted Langfuse via docker-compose. Every query goes through a `trace_query` context manager that records latency, input tokens, output tokens, retrieval mode, number of retrieved chunks, and rerank-applied flag. Open Langfuse on localhost:3000, see every query, drill into spans. When a query is slow or the answer is bad, the trace shows whether it was retrieval or generation that misbehaved.
 
@@ -120,16 +120,16 @@ Adding either of these later would be 10× the work of adding them on day one. I
 
 **`OLLAMA_FLASH_ATTENTION`.** Ollama silently enables flash attention for BERT-class embedding models in v0.13.5 onwards. BGE-M3 is BERT-based. LightRAG's merging stage embeds long entity descriptions; the F16 cast in the flash-attn path overflows on long inputs, returns NaN, returns HTTP 500, marks the document as failed. The fix is a single environment variable on the host: `OLLAMA_FLASH_ATTENTION=false`. Finding it took an embarrassing number of debug sessions. Full writeup [here](/blog/09-bge-m3-ollama-nan-embeddings-flash-attention).
 
-**`LLM_TIMEOUT=0` is not infinite.** I assumed (reasonably!) that setting `LLM_TIMEOUT=0` would mean "no timeout". It actually means "timeout after 0 seconds". The worker uses `asyncio.wait_for(..., timeout=LLM_TIMEOUT * 2)`, and `0 * 2 = 0`. The fix is `LLM_TIMEOUT=1800`. There are three separate timeout systems in LightRAG (httpx, LLM worker, embedding worker) and they don't share semantics — `TIMEOUT=0` *does* mean infinite for the httpx layer. Documented in LEARNINGS.md.
+**`LLM_TIMEOUT=0` is not infinite.** I assumed (reasonably!) that setting `LLM_TIMEOUT=0` would mean "no timeout". It actually means "timeout after 0 seconds". The worker uses `asyncio.wait_for(..., timeout=LLM_TIMEOUT * 2)`, and `0 * 2 = 0`. The fix is `LLM_TIMEOUT=1800`. There are three separate timeout systems in LightRAG (httpx, LLM worker, embedding worker) and they don't share semantics `TIMEOUT=0` *does* mean infinite for the httpx layer. Documented in LEARNINGS.md.
 
-**WSL Ollama vs Windows Ollama.** Docker Desktop boots WSL2 silently. If Ollama's systemd service is enabled inside WSL (a default for many install paths), it bridges port 11434 from WSL to the Windows host, and `host.docker.internal` routes containers preferentially to WSL — which only has the models pulled inside WSL. You see "model not found" errors even though the right models exist in the Windows Ollama install. The fix: `wsl -- sudo systemctl disable --now ollama && wsl --shutdown`.
+**WSL Ollama vs Windows Ollama.** Docker Desktop boots WSL2 silently. If Ollama's systemd service is enabled inside WSL (a default for many install paths), it bridges port 11434 from WSL to the Windows host, and `host.docker.internal` routes containers preferentially to WSL which only has the models pulled inside WSL. You see "model not found" errors even though the right models exist in the Windows Ollama install. The fix: `wsl -- sudo systemctl disable --now ollama && wsl --shutdown`.
 
-**Per-client workspaces.** Original plan had per-client `workspace_dir` isolation. I dropped it once scope was confirmed as internal-only. The benefit of merging is cross-client pattern surfacing — "the same Firebase session-handling pattern in BEMER and KEV Explorer" is a query the unified graph can answer; partitioned graphs can't. If we ever go client-facing, multi-tenancy is a v2 concern, not a refactor.
+**Per-client workspaces.** Original plan had per-client `workspace_dir` isolation. I dropped it once scope was confirmed as internal-only. The benefit of merging is cross-client pattern surfacing "the same Firebase session-handling pattern in BEMER and KEV Explorer" is a query the unified graph can answer; partitioned graphs can't. If we ever go client-facing, multi-tenancy is a v2 concern, not a refactor.
 
 ## What this is, what it isn't
 
 CZ-Dev-RAG is *not* a novel framework. The novelty is in the integration: choosing the right models for a fixed VRAM budget, designing an auth perimeter that fits a two-user setup without security theatre, wiring observability and CI before you need them, and shipping a public repo that recruiters can clone and run against synthetic data without seeing a single client document.
 
-It is also the thing I'd reach for if a client asked me to build them an internal RAG over their own contracts. The architecture would change — multi-tenancy, real auth, probably Bedrock or Azure OpenAI in place of local Ollama — but the *shape* is the same: graph-augmented retrieval, an MCP wrapper for assistant integration, a tracing layer from day one, an eval harness that's actually run.
+It is also the thing I'd reach for if a client asked me to build them an internal RAG over their own contracts. The architecture would change multi-tenancy, real auth, probably Bedrock or Azure OpenAI in place of local Ollama but the *shape* is the same: graph-augmented retrieval, an MCP wrapper for assistant integration, a tracing layer from day one, an eval harness that's actually run.
 
 Repo: [github.com/TamasCzaban/CZ-Dev-RAG](https://github.com/TamasCzaban/CZ-Dev-RAG). Quickstart in the README gets a fresh Windows 11 box to a queryable demo in 15 minutes plus model download time. Issues and PRs welcome. Project page with the full stack table and operational notes is [here](/projects/cz-dev-rag).

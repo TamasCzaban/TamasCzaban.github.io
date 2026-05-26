@@ -13,7 +13,7 @@ The first Power BI report I built connected directly to a raw database table wit
 
 Six months later it was a mess. Calculated columns everywhere, relationships between tables that shouldn't have relationships, a query that took 40 seconds to refresh. The lesson: the quality of a Power BI report is mostly determined before you open Power BI.
 
-The pattern I use now — after building dashboards at Ericsson and on personal projects — separates the work cleanly into SQL and Power BI, each doing what it's good at.
+The pattern I use now after building dashboards at Ericsson and on personal projects separates the work cleanly into SQL and Power BI, each doing what it's good at.
 
 ## Do the transformation in SQL
 
@@ -59,11 +59,11 @@ A proper model also makes DAX dramatically simpler. Most of your measures end up
 
 ## DAX belongs in measures, not calculated columns
 
-New Power BI users reach for calculated columns first — they're familiar, they show up in the table view, they feel like spreadsheet formulas.
+New Power BI users reach for calculated columns first they're familiar, they show up in the table view, they feel like spreadsheet formulas.
 
 Calculated columns are evaluated row by row and stored in memory. For large tables this is expensive. Measures are evaluated at query time against the current filter context, which is almost always what you actually want.
 
-My rule: if the calculation depends on the visual's filter context (which most do), it's a measure. If it's a fixed property of a row that doesn't change based on filters — like categorising ages into buckets — it can be a calculated column or, better, a SQL column.
+My rule: if the calculation depends on the visual's filter context (which most do), it's a measure. If it's a fixed property of a row that doesn't change based on filters like categorising ages into buckets it can be a calculated column or, better, a SQL column.
 
 ## The payoff
 
