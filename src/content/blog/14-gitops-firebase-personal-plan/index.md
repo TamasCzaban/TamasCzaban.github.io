@@ -6,9 +6,7 @@ tags: ["Firebase", "CI/CD", "Security", "DevEx"]
 draft: true
 ---
 
-The assumption is that you need a paid plan for real branch protections. For Vital Registry, a production CRM with real customer data, I built three fully isolated environments on a Firebase personal plan. Branch protections, secrets scanning, supply-chain defence, and scheduled CVE scans — all configured as code, none of it requiring a paid GitHub tier.
-
-The motivation was direct: two engineers shipping async to a production app used by paying clients. Sloppiness has a cost when real data is at stake.
+The assumption is that real branch protections require a paid plan. For Vital Registry, a production CRM with real customer data, I built three fully isolated environments on a Firebase personal plan. Branch protections, secrets scanning, supply-chain defence, and scheduled CVE scans — all configured as code, none requiring a paid GitHub tier.
 
 ## Three environments, three promotion gates
 
@@ -30,13 +28,13 @@ The ruleset is minimal: no direct push to `main`, no force-push to `main`, requi
 
 Gitleaks runs as the first step in every workflow — dev, UAT, and prod. The scan runs before Firebase deploy commands execute. If a secret pattern is detected, the run fails and nothing deploys.
 
-The cost is a few seconds per run. The alternative is discovering a committed credential after it has already been in the Git history. Git history is permanent. Rotating a leaked key is expensive and stressful. The scan runs every time.
+The cost is a few seconds per run. The alternative is discovering a committed credential already in the Git history — permanent, expensive to rotate, and stressful to explain.
 
 ## Pinned dependency versions
 
-All package versions in `package.json` and `package-lock.json` are pinned explicitly. No floating ranges, no `^` or `~` prefixes on security-relevant packages. The npm supply-chain incidents of the past few years demonstrated the attack surface: a maintainer account gets compromised, a malicious version is published, and any project using a floating range installs the malicious package on the next `npm install`.
+All package versions are pinned explicitly — no `^` or `~` prefixes. The npm supply-chain incidents of the past few years demonstrated the attack surface: a maintainer account gets compromised, a malicious version is published, and any project with a floating range installs it on the next `npm install`.
 
-Pinning eliminates that class of attack. The cost is manual version bumps — which is work you should be doing deliberately anyway, not leaving to an automated range resolver.
+Pinning eliminates that class of attack. The cost is deliberate version bumps — work you should be doing intentionally, not delegating to a range resolver.
 
 ## Weekly scheduled CVE scans
 
