@@ -14,11 +14,9 @@ tags:
 - GuardDuty
 ---
 
-I had an interview for an Associate Cloud Infrastructure Security Engineer role. The spec listed Kubernetes, IAM, GuardDuty, CloudTrail. My CV had all of it. What I didn't have was a repo showing how I actually wire those controls together. I built it over a weekend.
+This project showcases a [secure k8s demo](https://github.com/TamasCzaban/secure-k8s-demo), a k3s cluster on EC2, built entirely with Terraform, with a real application deployed on top.
 
-The result is [secure k8s demo](https://github.com/TamasCzaban/secure-k8s-demo), a k3s cluster on EC2, built entirely with Terraform, with a real application deployed on top.
-
-Security CV bullets take five minutes to write. Anyone can claim GuardDuty experience. I wanted a repo that showed the reasoning behind each control, not just that it was present. Network level (security groups and K8s NetworkPolicy), IAM (cloud role and K8s RBAC), runtime (pod security context), and audit (CloudTrail). Several are a single YAML field. Getting all of them applied together without leaving gaps is the actual work.
+Anyone can claim AWS experience. I wanted a repo that showed the reasoning behind each control, not just that it was present. Network level (security groups and K8s NetworkPolicy), IAM (cloud role and K8s RBAC), runtime (pod security context), and audit (CloudTrail). Several are a single YAML field. Getting all of them applied together without leaving gaps is the actual work.
 
 ## The stack
 
@@ -127,4 +125,4 @@ Single node cluster, free tier EC2, Stockholm. No TLS on the K8s API, no cert ma
 
 Every security control works as documented. The RBAC boundaries hold under testing. The audit trail runs. Production clusters have cert manager, Velero, and a proper Ingress stack on top of these controls. This cluster has the controls.
 
-The repo is at [github.com/TamasCzaban/secure-k8s-demo](https://github.com/TamasCzaban/secure-k8s-demo). The scorer runs at `http://13.60.220.109:30001`.
+The repo is at [github.com/TamasCzaban/secure-k8s-demo](https://github.com/TamasCzaban/secure-k8s-demo). The scorer runs at [scorer.czaban.dev](https://scorer.czaban.dev).
