@@ -12,7 +12,7 @@ tags:
 - RBAC
 - CloudTrail
 - GuardDuty
-demoUrl: "http://13.60.220.109:30001"
+demoUrl: "https://scorer.czaban.dev"
 repoUrl: "https://github.com/TamasCzaban/secure-k8s-demo"
 ---
 
