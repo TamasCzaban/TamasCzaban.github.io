@@ -1,12 +1,12 @@
 ---
-title: "Six Security Gates, One Autonomous Session"
-summary: "Six phases, one Claude Code session. Storage deploy gap, fail-closed auth, a 50-test rules suite, Semgrep SAST, OWASP ZAP DAST, and email rate limiting for Vital Registry. What the new gates found the first time they ran."
+title: "Six Security Gates, One Idea to Ship Session"
+summary: "Six phases, one Idea to Ship session. Storage deploy gap, fail-closed auth, a 50-test rules suite, Semgrep SAST, OWASP ZAP DAST, and email rate limiting for Vital Registry. What the new gates found the first time they ran."
 date: "Jun 11 2026"
 tags: ["Security", "CI/CD", "AI", "Firebase"]
 draft: false
 ---
 
-The original Vital Registry CI pipeline deployed to three environments and blocked on lint failures. It did not gate on security. Firestore rules had no automated test coverage. The tier check function that controls subscription access failed open. When the database read threw an error, it returned true. Authenticated users who lost their subscription got access if Firebase returned anything other than a clean read.
+The original Vital Registry CI pipeline deployed to three environments and blocked on lint failures. It did not gate on security. Private repo branch protections are not enforced by default and we had not set them up, but they should have been in place regardless. Firestore rules had no automated test coverage. The tier check function that controls subscription access failed open, not a critical issue as we moved to a free model. When the database read threw an error, it returned true. Authenticated users who lost their subscription got access if Firebase returned anything other than a clean read.
 
 That failure mode was latent until a deliberate audit found it.
 
