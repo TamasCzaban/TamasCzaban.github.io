@@ -48,6 +48,11 @@ function formatWorkDate(input: Date | string) {
             <div class="text-sm font-semibold">
               {entry.data.role}
             </div>
+            {entry.data.location && (
+              <div class="text-sm text-black/60 dark:text-white/60 mb-4">
+                {entry.data.location}
+              </div>
+            )}
             <article class="prose dark:prose-invert">
               <entry.Content />
             </article>

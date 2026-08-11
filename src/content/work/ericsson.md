@@ -1,13 +1,14 @@
 ---
 company: "Ericsson"
-role: "Data Analyst"
-dateStart: "01/01/2023"
-dateEnd: "03/31/2025"
+role: "Cloud Support Engineer"
+dateStart: "11/01/2023"
+dateEnd: "08/31/2025"
+location: "Hybrid"
 ---
 
-Embedded within Ericsson's business intelligence function, delivering data-driven solutions across network and operational teams.
+Provided Tier-2 cloud orchestration support for global telecommunications infrastructure, specializing in OpenStack environments and critical incident resolution.
 
-- Designed and maintained Power BI dashboards used by stakeholders across multiple business units
-- Wrote complex SQL queries to extract and transform data from large relational databases
-- Automated recurring Excel and reporting workflows using Python scripts
-- Supported cross-functional teams with ad-hoc analysis and data quality validation
+- Conducted root-cause analyses of complex OpenStack compute and orchestration failures, identifying underlying architectural issues to prevent recurrence
+- Maintained 90% individual utilization while achieving 95% on-time delivery for proposed technical solutions, exceeding team targets for high-priority tickets
+- Served as a primary on-call engineer for business-critical infrastructure, ensuring rapid response and mitigation for enterprise-client production outages
+- Tech stack: OpenStack, cloud orchestration, Linux/Unix, Jira, ServiceNow, root cause analysis
